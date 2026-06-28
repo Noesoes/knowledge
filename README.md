@@ -1,5 +1,7 @@
 # DevPath
 
+**Live:** https://noesoes.github.io/knowledge/
+
 A free learning platform for people heading into software development — not just syntax, but the whole picture: how to learn technical skills effectively, version control, working with data, and how applications talk to each other.
 
 ## Why it's built this way
