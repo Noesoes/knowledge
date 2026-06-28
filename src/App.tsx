@@ -10,7 +10,7 @@ import { cliUnits } from "./content/cliPath";
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0b0f17] text-slate-900 dark:text-[#e6e9f0]">
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />

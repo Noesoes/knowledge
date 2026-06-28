@@ -73,8 +73,8 @@ function SqlExecLessonView({
 
   return (
     <div className="space-y-3">
-      <h3 className="font-semibold text-indigo-300">Exercise</h3>
-      <p className="text-sm text-slate-300">{lesson.task}</p>
+      <h3 className="font-semibold text-indigo-600 dark:text-indigo-300">Exercise</h3>
+      <p className="text-sm text-slate-600 dark:text-slate-300">{lesson.task}</p>
       <textarea
         value={query}
         onChange={(e) => {
@@ -86,45 +86,45 @@ function SqlExecLessonView({
         }}
         spellCheck={false}
         rows={4}
-        className="w-full font-mono text-sm rounded-md border border-slate-700 focus:border-indigo-500 bg-slate-950 text-slate-100 p-3 outline-none"
+        className="w-full font-mono text-sm rounded-md border border-slate-300 dark:border-slate-700 focus:border-indigo-500 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-3 outline-none"
       />
       <div className="flex flex-wrap items-center gap-3">
         <button onClick={run} className="px-3 py-1.5 rounded-md bg-indigo-600 text-white text-sm font-medium">
           ▶ Run
         </button>
-        <button onClick={check} className="px-3 py-1.5 rounded-md border border-slate-600 text-sm text-slate-300">
+        <button onClick={check} className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-700 dark:text-slate-300">
           ✓ Check Answer
         </button>
-        <button onClick={() => setShowHint((s) => !s)} className="text-sm text-slate-400 hover:text-slate-200">
+        <button onClick={() => setShowHint((s) => !s)} className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
           {showHint ? "Hide hint" : "Show hint"}
         </button>
         <button
           onClick={() => setShowSolution((s) => !s)}
-          className="text-sm text-slate-400 hover:text-slate-200 sm:ml-auto"
+          className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 sm:ml-auto"
         >
           {showSolution ? "Hide solution" : "Show solution"}
         </button>
       </div>
 
-      {showHint && lesson.hint && <p className="text-xs text-amber-300">Hint: {lesson.hint}</p>}
+      {showHint && lesson.hint && <p className="text-xs text-amber-700 dark:text-amber-300">Hint: {lesson.hint}</p>}
       {showSolution && (
-        <pre className="text-xs bg-slate-950 border border-slate-800 rounded-md p-3 overflow-x-auto">
+        <pre className="text-xs bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 rounded-md p-3 overflow-x-auto">
           <code>{lesson.solution}</code>
         </pre>
       )}
 
-      {error && <p className="text-sm font-mono text-red-400 whitespace-pre-wrap">⚠ {error}</p>}
+      {error && <p className="text-sm font-mono text-red-600 dark:text-red-400 whitespace-pre-wrap">⚠ {error}</p>}
 
       {result && (
-        <div className="overflow-x-auto rounded-md border border-slate-800">
+        <div className="overflow-x-auto rounded-md border border-slate-200 dark:border-slate-800">
           {result.columns.length === 0 ? (
-            <p className="text-sm text-slate-400 p-3">Query ran successfully — no rows returned.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 p-3">Query ran successfully — no rows returned.</p>
           ) : (
             <table className="w-full text-sm">
-              <thead className="bg-slate-800/50">
+              <thead className="bg-slate-100 dark:bg-slate-800/50">
                 <tr>
                   {result.columns.map((c) => (
-                    <th key={c} className="text-left px-3 py-1.5 font-mono text-indigo-300">
+                    <th key={c} className="text-left px-3 py-1.5 font-mono text-indigo-600 dark:text-indigo-300">
                       {c}
                     </th>
                   ))}
@@ -132,9 +132,9 @@ function SqlExecLessonView({
               </thead>
               <tbody>
                 {result.values.map((row, ri) => (
-                  <tr key={ri} className="border-t border-slate-800">
+                  <tr key={ri} className="border-t border-slate-200 dark:border-slate-800">
                     {row.map((cell, ci) => (
-                      <td key={ci} className="px-3 py-1.5 font-mono text-slate-300">
+                      <td key={ci} className="px-3 py-1.5 font-mono text-slate-700 dark:text-slate-300">
                         {String(cell)}
                       </td>
                     ))}
@@ -150,7 +150,9 @@ function SqlExecLessonView({
         <div
           className={
             "rounded-md px-3 py-2 text-sm " +
-            (checked === "pass" ? "bg-green-500/10 text-green-300" : "bg-red-500/10 text-red-300")
+            (checked === "pass"
+              ? "bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-300"
+              : "bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300")
           }
         >
           {checked === "pass" ? "✓ Correct! Nice work." : "✗ Not quite — compare your output to the task and try again."}
@@ -177,7 +179,7 @@ function McLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { type:
 
   return (
     <div className="space-y-3">
-      <p className="font-medium">{lesson.question}</p>
+      <p className="font-medium text-slate-900 dark:text-slate-100">{lesson.question}</p>
       <div className="space-y-2">
         {lesson.options.map((opt, i) => {
           const isCorrect = selected !== null && i === lesson.correctIndex;
@@ -187,11 +189,11 @@ function McLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { type:
               key={i}
               onClick={() => select(i)}
               className={[
-                "mc-option w-full text-left px-3 py-2 rounded-md border text-sm transition-colors",
-                isCorrect ? "border-green-500 bg-green-500/10 text-green-300" : "",
-                isWrong ? "border-red-500 bg-red-500/10 text-red-300" : "",
-                selected === null ? "border-slate-700 hover:border-slate-500" : "",
-                selected !== null && !isCorrect && !isWrong ? "border-slate-800 opacity-60" : "",
+                "mc-option w-full text-left px-3 py-2 rounded-md border text-sm transition-colors text-slate-700 dark:text-slate-200",
+                isCorrect ? "border-green-500 bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-300" : "",
+                isWrong ? "border-red-500 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300" : "",
+                selected === null ? "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500" : "",
+                selected !== null && !isCorrect && !isWrong ? "border-slate-200 dark:border-slate-800 opacity-60" : "",
               ].join(" ")}
             >
               {opt}
@@ -199,9 +201,9 @@ function McLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { type:
           );
         })}
       </div>
-      {selected !== null && <p className="quiz-explain text-xs text-slate-400">{lesson.explanation}</p>}
+      {selected !== null && <p className="quiz-explain text-xs text-slate-500 dark:text-slate-400">{lesson.explanation}</p>}
       {selected !== null && selected !== lesson.correctIndex && (
-        <button onClick={retry} className="px-3 py-1.5 rounded-md border border-slate-600 text-sm text-slate-300">
+        <button onClick={retry} className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-700 dark:text-slate-300">
           Retry
         </button>
       )}
@@ -227,8 +229,8 @@ function FillLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { typ
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-slate-300">{lesson.promptHtml}</p>
-      <div className="fill-row flex flex-wrap items-center gap-2 font-mono text-sm bg-slate-950 border border-slate-800 rounded-md p-3">
+      <p className="text-sm text-slate-600 dark:text-slate-300">{lesson.promptHtml}</p>
+      <div className="fill-row flex flex-wrap items-center gap-2 font-mono text-sm bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 rounded-md p-3">
         <span>{lesson.before}</span>
         <input
           type="text"
@@ -239,8 +241,8 @@ function FillLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { typ
           }}
           onKeyDown={(e) => e.key === "Enter" && submit()}
           className={[
-            "fill-input px-2 py-1 rounded-md border bg-slate-900 text-slate-100 outline-none w-32",
-            submitted ? (correct ? "border-green-500" : "border-red-500") : "border-slate-700 focus:border-indigo-500",
+            "fill-input px-2 py-1 rounded-md border bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 outline-none w-32",
+            submitted ? (correct ? "border-green-500" : "border-red-500") : "border-slate-300 dark:border-slate-700 focus:border-indigo-500",
           ].join(" ")}
         />
         <span>{lesson.after}</span>
@@ -249,7 +251,7 @@ function FillLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { typ
         Submit
       </button>
       {submitted && (
-        <p className={correct ? "text-green-400 text-sm" : "text-red-400 text-sm"}>
+        <p className={correct ? "text-green-600 dark:text-green-400 text-sm" : "text-red-600 dark:text-red-400 text-sm"}>
           {correct ? "✓ Correct!" : "✗ Not quite."} {lesson.explanation}
         </p>
       )}
@@ -319,26 +321,26 @@ export default function SqlCoursePage() {
     <div className="max-w-6xl mx-auto px-4 py-6">
       {showConfetti && <ConfettiBurst />}
 
-      <Link to="/" className="text-sm text-slate-500 hover:text-slate-300">
+      <Link to="/" className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
         ← Back to all paths
       </Link>
 
       <div className="flex items-center justify-between mt-3 mb-4 md:hidden">
         <button
           onClick={() => setShowSidebar((s) => !s)}
-          className="px-3 py-1.5 rounded-md border border-slate-700 text-sm text-slate-300"
+          className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300"
         >
           ☰ Lessons
         </button>
         <button
           onClick={() => setShowSchema((s) => !s)}
-          className="px-3 py-1.5 rounded-md border border-slate-700 text-sm text-slate-300"
+          className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300"
         >
           🗄 Schema
         </button>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
         {/* Sidebar */}
         <aside
           className={[
@@ -347,17 +349,17 @@ export default function SqlCoursePage() {
             "md:block",
           ].join(" ")}
         >
-          <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3">
-            <p className="font-semibold mb-2">📘 SQL Interactive Course</p>
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-3 shadow-sm">
+            <p className="font-semibold mb-2 text-slate-900 dark:text-slate-100">📘 SQL Interactive Course</p>
             <div className="flex gap-2 mb-2">
-              <span className="text-xs px-2 py-1 rounded-full bg-amber-500/10 text-amber-300">
+              <span className="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300">
                 🔥 {progress.streak} day streak
               </span>
-              <span className="text-xs px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-300">
+              <span className="text-xs px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300">
                 ⭐ {progress.xp} XP
               </span>
             </div>
-            <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+            <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
               <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
             </div>
           </div>
@@ -383,19 +385,23 @@ export default function SqlCoursePage() {
                         disabled={!unlocked}
                         className={[
                           "path-node w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-md text-sm transition-transform",
-                          active ? "bg-indigo-500/10 border border-indigo-500" : "border border-transparent",
+                          active ? "bg-indigo-100 dark:bg-indigo-500/10 border border-indigo-400 dark:border-indigo-500" : "border border-transparent",
                           unlocked ? "hover:scale-[1.02] cursor-pointer" : "opacity-40 cursor-not-allowed",
                         ].join(" ")}
                       >
                         <span
                           className={
                             "shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold " +
-                            (done ? "bg-green-600 text-white" : unlocked ? "bg-slate-800 text-slate-300" : "bg-slate-900 text-slate-600")
+                            (done
+                              ? "bg-green-600 text-white"
+                              : unlocked
+                                ? "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                                : "bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600")
                           }
                         >
                           {done ? "✓" : unlocked ? i + 1 : "🔒"}
                         </span>
-                        <span className={unlocked ? "text-slate-200" : "text-slate-600"}>{l.title}</span>
+                        <span className={unlocked ? "text-slate-700 dark:text-slate-200" : "text-slate-400 dark:text-slate-600"}>{l.title}</span>
                       </button>
                     );
                   })}
@@ -406,12 +412,12 @@ export default function SqlCoursePage() {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 min-w-0">
-          <h2 className="text-xl sm:text-2xl font-bold mb-3">{lesson.title}</h2>
+        <main className={["flex-1 min-w-0", showSidebar || showSchema ? "hidden md:block" : "block"].join(" ")}>
+          <h2 className="text-xl sm:text-2xl font-bold mb-3 text-slate-900 dark:text-slate-100">{lesson.title}</h2>
 
           {lesson.type === "sql" && <Lesson content={lesson.body} />}
 
-          <div className="mt-4 rounded-lg border border-slate-700 bg-slate-900/40 p-4">
+          <div className="mt-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/40 p-4 shadow-sm">
             {lesson.type === "sql" && <SqlExecLessonView lesson={lesson} onPassed={handlePassed} />}
             {lesson.type === "mc" && <McLessonView lesson={lesson} onPassed={handlePassed} />}
             {lesson.type === "fill" && <FillLessonView lesson={lesson} onPassed={handlePassed} />}
@@ -421,7 +427,7 @@ export default function SqlCoursePage() {
             {prevLesson ? (
               <button
                 onClick={() => selectLesson(prevLesson.id)}
-                className="text-sm text-slate-400 hover:text-slate-200"
+                className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
               >
                 ← Prev
               </button>
@@ -432,7 +438,7 @@ export default function SqlCoursePage() {
               <button
                 onClick={() => selectLesson(nextLesson.id)}
                 disabled={!progress.isUnlocked(nextLesson.id)}
-                className="text-sm px-4 py-2 rounded-md bg-indigo-600 disabled:bg-slate-700 disabled:text-slate-500 text-white font-medium"
+                className="text-sm px-4 py-2 rounded-md bg-indigo-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-white font-medium"
               >
                 Next →
               </button>
@@ -451,28 +457,28 @@ export default function SqlCoursePage() {
             previewTable ? "md:w-[420px]" : "",
           ].join(" ")}
         >
-          <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3">
-            <p className="font-semibold text-indigo-300 mb-2">Schema</p>
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-3 shadow-sm">
+            <p className="font-semibold text-indigo-600 dark:text-indigo-300 mb-2">Schema</p>
             <div className="space-y-2">
               {sqlSchemaPreview.map((t) => (
-                <div key={t.table} className="rounded-md border border-slate-800 p-2 text-xs">
+                <div key={t.table} className="rounded-md border border-slate-200 dark:border-slate-800 p-2 text-xs">
                   <div className="flex items-center justify-between mb-1">
-                    <p className="font-mono text-indigo-300">{t.table}</p>
+                    <p className="font-mono text-indigo-600 dark:text-indigo-300">{t.table}</p>
                     <button
                       onClick={() => viewTable(t.table)}
-                      className="text-slate-400 hover:text-slate-200"
+                      className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                     >
                       👁 view data
                     </button>
                   </div>
-                  <p className="text-slate-400">{t.columns.join(", ")}</p>
+                  <p className="text-slate-500 dark:text-slate-400">{t.columns.join(", ")}</p>
                   {previewTable === t.table && previewRows && (
-                    <div className="mt-2 overflow-x-auto rounded-md border border-slate-800 max-h-48 overflow-y-auto">
+                    <div className="mt-2 overflow-x-auto rounded-md border border-slate-200 dark:border-slate-800 max-h-48 overflow-y-auto">
                       <table className="w-full text-xs">
-                        <thead className="bg-slate-800/50">
+                        <thead className="bg-slate-100 dark:bg-slate-800/50">
                           <tr>
                             {previewRows.columns.map((c) => (
-                              <th key={c} className="text-left px-2 py-1 font-mono text-indigo-300">
+                              <th key={c} className="text-left px-2 py-1 font-mono text-indigo-600 dark:text-indigo-300">
                                 {c}
                               </th>
                             ))}
@@ -480,9 +486,9 @@ export default function SqlCoursePage() {
                         </thead>
                         <tbody>
                           {previewRows.values.map((row, ri) => (
-                            <tr key={ri} className="border-t border-slate-800">
+                            <tr key={ri} className="border-t border-slate-200 dark:border-slate-800">
                               {row.map((cell, ci) => (
-                                <td key={ci} className="px-2 py-1 font-mono text-slate-300">
+                                <td key={ci} className="px-2 py-1 font-mono text-slate-700 dark:text-slate-300">
                                   {String(cell)}
                                 </td>
                               ))}
@@ -501,7 +507,7 @@ export default function SqlCoursePage() {
                 setPreviewTable(null);
                 setPreviewRows(null);
               }}
-              className="mt-3 w-full px-3 py-1.5 rounded-md border border-slate-600 text-xs text-slate-300"
+              className="mt-3 w-full px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600 text-xs text-slate-700 dark:text-slate-300"
             >
               Reset data
             </button>

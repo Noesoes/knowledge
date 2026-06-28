@@ -88,32 +88,34 @@ export default function LessonPathPage({
     <div className="max-w-6xl mx-auto px-4 py-6">
       {showConfetti && <ConfettiBurst />}
 
-      <Link to={backHref} className="text-sm text-slate-500 hover:text-slate-300">
+      <Link to={backHref} className="text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">
         ← {backLabel}
       </Link>
 
       <div className="flex items-center justify-between mt-3 mb-4 md:hidden">
         <button
           onClick={() => setShowSidebar((s) => !s)}
-          className="px-3 py-1.5 rounded-md border border-slate-700 text-sm text-slate-300"
+          className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-sm text-slate-700 dark:text-slate-300"
         >
           ☰ Lessons
         </button>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
         <aside className={["shrink-0 w-full md:w-72 space-y-4", showSidebar ? "block" : "hidden", "md:block"].join(" ")}>
-          <div className="rounded-lg border border-slate-800 bg-slate-900/40 p-3">
-            <p className="font-semibold mb-2">
+          <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-3 shadow-sm">
+            <p className="font-semibold mb-2 text-slate-900 dark:text-slate-100">
               {icon} {title}
             </p>
             <div className="flex gap-2 mb-2">
-              <span className="text-xs px-2 py-1 rounded-full bg-amber-500/10 text-amber-300">
+              <span className="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300">
                 🔥 {progress.streak} day streak
               </span>
-              <span className="text-xs px-2 py-1 rounded-full bg-indigo-500/10 text-indigo-300">⭐ {progress.xp} XP</span>
+              <span className="text-xs px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300">
+                ⭐ {progress.xp} XP
+              </span>
             </div>
-            <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+            <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
               <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
             </div>
           </div>
@@ -139,19 +141,25 @@ export default function LessonPathPage({
                         disabled={!unlocked}
                         className={[
                           "path-node w-full flex items-center gap-2 text-left px-2 py-1.5 rounded-md text-sm transition-transform",
-                          active ? "bg-indigo-500/10 border border-indigo-500" : "border border-transparent",
+                          active ? "bg-indigo-100 dark:bg-indigo-500/10 border border-indigo-400 dark:border-indigo-500" : "border border-transparent",
                           unlocked ? "hover:scale-[1.02] cursor-pointer" : "opacity-40 cursor-not-allowed",
                         ].join(" ")}
                       >
                         <span
                           className={
                             "shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold " +
-                            (done ? "bg-green-600 text-white" : unlocked ? "bg-slate-800 text-slate-300" : "bg-slate-900 text-slate-600")
+                            (done
+                              ? "bg-green-600 text-white"
+                              : unlocked
+                                ? "bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300"
+                                : "bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600")
                           }
                         >
                           {done ? "✓" : unlocked ? i + 1 : "🔒"}
                         </span>
-                        <span className={unlocked ? "text-slate-200" : "text-slate-600"}>{l.title}</span>
+                        <span className={unlocked ? "text-slate-700 dark:text-slate-200" : "text-slate-400 dark:text-slate-600"}>
+                          {l.title}
+                        </span>
                       </button>
                     );
                   })}
@@ -161,18 +169,18 @@ export default function LessonPathPage({
           </div>
         </aside>
 
-        <main className="flex-1 min-w-0">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4">{lesson.title}</h2>
+        <main className={["flex-1 min-w-0", showSidebar ? "hidden md:block" : "block"].join(" ")}>
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 text-slate-900 dark:text-slate-100">{lesson.title}</h2>
 
           {lesson.diagram && <PathDiagram kind={lesson.diagram} />}
 
-          <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-4 space-y-3">
+          <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900/40 p-4 space-y-3 shadow-sm">
             {lesson.content && (
-              <div className="text-sm text-slate-300 whitespace-pre-line border-b border-slate-800 pb-3 mb-1">
+              <div className="text-sm text-slate-600 dark:text-slate-300 whitespace-pre-line border-b border-slate-200 dark:border-slate-800 pb-3 mb-1">
                 {lesson.content}
               </div>
             )}
-            <p className="font-medium">{lesson.question}</p>
+            <p className="font-medium text-slate-900 dark:text-slate-100">{lesson.question}</p>
             <div className="space-y-2">
               {lesson.options.map((opt, i) => {
                 const isCorrect = selected !== null && i === lesson.correctIndex;
@@ -182,11 +190,11 @@ export default function LessonPathPage({
                     key={i}
                     onClick={() => choose(i)}
                     className={[
-                      "mc-option w-full text-left px-3 py-2 rounded-md border text-sm transition-colors",
-                      isCorrect ? "border-green-500 bg-green-500/10 text-green-300" : "",
-                      isWrong ? "border-red-500 bg-red-500/10 text-red-300" : "",
-                      selected === null ? "border-slate-700 hover:border-slate-500" : "",
-                      selected !== null && !isCorrect && !isWrong ? "border-slate-800 opacity-60" : "",
+                      "mc-option w-full text-left px-3 py-2 rounded-md border text-sm transition-colors text-slate-700 dark:text-slate-200",
+                      isCorrect ? "border-green-500 bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-300" : "",
+                      isWrong ? "border-red-500 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-300" : "",
+                      selected === null ? "border-slate-300 dark:border-slate-700 hover:border-slate-400 dark:hover:border-slate-500" : "",
+                      selected !== null && !isCorrect && !isWrong ? "border-slate-200 dark:border-slate-800 opacity-60" : "",
                     ].join(" ")}
                   >
                     {opt}
@@ -194,9 +202,12 @@ export default function LessonPathPage({
                 );
               })}
             </div>
-            {selected !== null && <p className="text-xs text-slate-400">{lesson.explanation}</p>}
+            {selected !== null && <p className="text-xs text-slate-500 dark:text-slate-400">{lesson.explanation}</p>}
             {selected !== null && selected !== lesson.correctIndex && (
-              <button onClick={retry} className="px-3 py-1.5 rounded-md border border-slate-600 text-sm text-slate-300">
+              <button
+                onClick={retry}
+                className="px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-600 text-sm text-slate-700 dark:text-slate-300"
+              >
                 Retry
               </button>
             )}
@@ -204,7 +215,7 @@ export default function LessonPathPage({
 
           <div className="flex items-center justify-between mt-6">
             {prevLesson ? (
-              <button onClick={() => selectLesson(prevLesson.id)} className="text-sm text-slate-400 hover:text-slate-200">
+              <button onClick={() => selectLesson(prevLesson.id)} className="text-sm text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200">
                 ← Prev
               </button>
             ) : (
@@ -214,7 +225,7 @@ export default function LessonPathPage({
               <button
                 onClick={() => selectLesson(nextLesson.id)}
                 disabled={!progress.isUnlocked(nextLesson.id)}
-                className="text-sm px-4 py-2 rounded-md bg-indigo-600 disabled:bg-slate-700 disabled:text-slate-500 text-white font-medium"
+                className="text-sm px-4 py-2 rounded-md bg-indigo-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-white font-medium"
               >
                 Next →
               </button>

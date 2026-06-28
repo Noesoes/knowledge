@@ -2,10 +2,10 @@ import type { PathDiagramKind } from "../lessonPathTypes";
 
 function Box({ children, color = "indigo" }: { children: React.ReactNode; color?: "indigo" | "green" | "amber" | "slate" }) {
   const colors: Record<string, string> = {
-    indigo: "border-indigo-500 bg-indigo-500/10 text-indigo-200",
-    green: "border-green-500 bg-green-500/10 text-green-200",
-    amber: "border-amber-500 bg-amber-500/10 text-amber-200",
-    slate: "border-slate-600 bg-slate-800/60 text-slate-300",
+    indigo: "border-indigo-400 dark:border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-200",
+    green: "border-green-400 dark:border-green-500 bg-green-50 dark:bg-green-500/10 text-green-700 dark:text-green-200",
+    amber: "border-amber-400 dark:border-amber-500 bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-200",
+    slate: "border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300",
   };
   return (
     <div className={`shrink-0 rounded-lg border px-3 py-2 text-center text-xs sm:text-sm font-medium ${colors[color]}`}>
@@ -17,8 +17,8 @@ function Box({ children, color = "indigo" }: { children: React.ReactNode; color?
 function Arrow({ label, reverse = false }: { label?: string; reverse?: boolean }) {
   return (
     <div className="flex flex-col items-center justify-center px-1 min-w-[64px]">
-      {label && <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5 text-center">{label}</span>}
-      <span className="text-lg text-slate-500">{reverse ? "←" : "→"}</span>
+      {label && <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mb-0.5 text-center">{label}</span>}
+      <span className="text-lg text-slate-400 dark:text-slate-500">{reverse ? "←" : "→"}</span>
     </div>
   );
 }
@@ -26,7 +26,7 @@ function Arrow({ label, reverse = false }: { label?: string; reverse?: boolean }
 export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
   if (kind === "client-server") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="indigo">🖥️ Client</Box>
           <Arrow label="HTTP request" />
@@ -50,8 +50,8 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
       ["DELETE", "/users/42", "remove"],
     ];
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3 space-y-2">
-        <p className="text-[10px] sm:text-xs text-slate-500 mb-1">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3 space-y-2">
+        <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mb-1">
           Every request pairs a method (the verb — what to do) with a URL (the noun — which resource to do it to).
         </p>
         {rows.map(([method, path, desc]) => (
@@ -59,7 +59,7 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
             <Box color="indigo">{method}</Box>
             <Arrow label="on" />
             <Box color="slate">{path}</Box>
-            <span className="text-slate-500">— {desc}</span>
+            <span className="text-slate-500 dark:text-slate-400">— {desc}</span>
           </div>
         ))}
       </div>
@@ -74,11 +74,11 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
       ["5xx", "Server error — e.g. 500 Internal Server Error", "amber"],
     ];
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3 space-y-2">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3 space-y-2">
         {rows.map(([code, desc, color]) => (
           <div key={code} className="flex items-center gap-2 flex-wrap text-xs sm:text-sm">
             <Box color={color}>{code}</Box>
-            <span className="text-slate-400">{desc}</span>
+            <span className="text-slate-600 dark:text-slate-400">{desc}</span>
           </div>
         ))}
       </div>
@@ -87,14 +87,14 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "rest-url") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap font-mono text-xs sm:text-sm">
           <Box color="slate">GET</Box>
-          <span className="text-slate-500">/articles</span>
+          <span className="text-slate-500 dark:text-slate-400">/articles</span>
           <Box color="indigo">/7</Box>
-          <span className="text-slate-500">/comments</span>
+          <span className="text-slate-500 dark:text-slate-400">/comments</span>
         </div>
-        <div className="flex items-center justify-center gap-6 flex-wrap mt-3 text-[10px] sm:text-xs text-slate-500">
+        <div className="flex items-center justify-center gap-6 flex-wrap mt-3 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
           <span>resource (noun)</span>
           <span>id of one article</span>
           <span>nested sub-resource</span>
@@ -105,7 +105,7 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "bearer-token") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="indigo">🖥️ Client</Box>
           <Arrow label='Authorization: Bearer <token>' />
@@ -122,7 +122,7 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "oauth") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3 space-y-2">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3 space-y-2">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="indigo">🖥️ Your App</Box>
           <Arrow label="1. redirect to login" />
@@ -144,13 +144,13 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "websocket") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="indigo">🖥️ Client</Box>
           <div className="flex flex-col items-center justify-center px-1 min-w-[100px]">
-            <span className="text-[10px] sm:text-xs text-slate-400 mb-0.5">persistent connection</span>
-            <span className="text-lg text-slate-500">⇄</span>
-            <span className="text-[10px] sm:text-xs text-slate-400 mt-0.5">messages flow both ways, anytime</span>
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mb-0.5">persistent connection</span>
+            <span className="text-lg text-slate-400 dark:text-slate-500">⇄</span>
+            <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">messages flow both ways, anytime</span>
           </div>
           <Box color="green">🗄️ Server</Box>
         </div>
@@ -160,13 +160,13 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "webhook") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3 space-y-2">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3 space-y-2">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="green">🗄️ Their Server</Box>
           <Arrow label="POST event → your URL" />
           <Box color="indigo">🖥️ Your Server</Box>
         </div>
-        <p className="text-[10px] sm:text-xs text-slate-500 text-center">
+        <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 text-center">
           Inverted from a normal call — the other server initiates the request when something happens, instead of
           you polling for updates.
         </p>
@@ -176,13 +176,13 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "rate-limit") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap">
           <Box color="indigo">🖥️ Client</Box>
           <Arrow label="too many requests" />
           <Box color="amber">429 Too Many Requests</Box>
         </div>
-        <p className="text-[10px] sm:text-xs text-slate-500 text-center mt-2">
+        <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
           The server caps how many requests a client can make per time window, then rejects the rest until it resets.
         </p>
       </div>
@@ -191,13 +191,13 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "redirect") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap font-mono text-xs sm:text-sm">
           <Box color="indigo">echo "hello"</Box>
           <Arrow label=">" />
           <Box color="slate">notes.txt</Box>
         </div>
-        <p className="text-[10px] sm:text-xs text-slate-500 text-center mt-2">
+        <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
           Instead of printing to the terminal, the command's output is written into the file — overwriting it with{" "}
           <code>&gt;</code>, or appended with <code>&gt;&gt;</code>.
         </p>
@@ -207,7 +207,7 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
 
   if (kind === "pipe") {
     return (
-      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+      <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-4 mb-3">
         <div className="flex items-center justify-center gap-1 flex-wrap font-mono text-xs sm:text-sm">
           <Box color="indigo">cat server.log</Box>
           <Arrow label="|" />
@@ -215,7 +215,7 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
           <Arrow label="→" />
           <Box color="slate">matching lines</Box>
         </div>
-        <p className="text-[10px] sm:text-xs text-slate-500 text-center mt-2">
+        <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
           The pipe feeds the output of the command on the left in as input to the command on the right.
         </p>
       </div>
