@@ -51,10 +51,13 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
     ];
     return (
       <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3 space-y-2">
+        <p className="text-[10px] sm:text-xs text-slate-500 mb-1">
+          Every request pairs a method (the verb — what to do) with a URL (the noun — which resource to do it to).
+        </p>
         {rows.map(([method, path, desc]) => (
           <div key={method} className="flex items-center gap-2 flex-wrap text-xs sm:text-sm">
             <Box color="indigo">{method}</Box>
-            <Arrow />
+            <Arrow label="on" />
             <Box color="slate">{path}</Box>
             <span className="text-slate-500">— {desc}</span>
           </div>
