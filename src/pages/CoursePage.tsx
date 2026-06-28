@@ -37,6 +37,30 @@ export default function CoursePage() {
         </Link>
       )}
 
+      {course.id === "python" && (
+        <Link
+          to="/python-path"
+          className="block mb-8 rounded-lg border border-indigo-700 bg-indigo-950/30 px-4 py-3 hover:border-indigo-500 transition-colors"
+        >
+          <p className="font-semibold text-indigo-300">🧭 Try the interactive Python path instead</p>
+          <p className="text-sm text-slate-400">
+            45 bite-sized multiple-choice lessons, simple to challenging, with XP and streaks.
+          </p>
+        </Link>
+      )}
+
+      {course.id === "apis" && (
+        <Link
+          to="/apis-path"
+          className="block mb-8 rounded-lg border border-indigo-700 bg-indigo-950/30 px-4 py-3 hover:border-indigo-500 transition-colors"
+        >
+          <p className="font-semibold text-indigo-300">🧭 Try the interactive APIs path instead</p>
+          <p className="text-sm text-slate-400">
+            45 bite-sized multiple-choice lessons, simple to challenging, with XP and streaks.
+          </p>
+        </Link>
+      )}
+
       <ol className="space-y-3">
         {course.modules.map((mod, idx) => {
           const done = isComplete(course.id, mod.id);
