@@ -5,6 +5,16 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+export interface CodeChallenge {
+  id: string;
+  language: "sql" | "python" | "bash";
+  prompt: string;
+  starter?: string;
+  checks: RegExp[]; // every check must match the typed answer for it to pass
+  solution: string;
+  hint?: string;
+}
+
 export interface Module {
   id: string;
   title: string;
@@ -13,6 +23,7 @@ export interface Module {
   keyTakeaways: string[];
   quiz: QuizQuestion[];
   project?: string;
+  codeChallenges?: CodeChallenge[];
 }
 
 export interface Course {

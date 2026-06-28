@@ -45,6 +45,24 @@ SQL queries are usually read in this logical order even though they're *written*
         "SQL is written as SELECT...FROM...WHERE but logically evaluated FROM → WHERE → SELECT → ORDER BY.",
         "LIKE with % wildcards lets you do partial text matches.",
       ],
+      codeChallenges: [
+        {
+          id: "select-where",
+          language: "sql",
+          prompt: "Write a query that selects the name and email columns from customers, but only for rows where country = 'Canada'.",
+          checks: [/select/i, /name/i, /email/i, /from\s+customers/i, /where/i, /country/i, /canada/i],
+          solution: "SELECT name, email FROM customers WHERE country = 'Canada';",
+          hint: "SELECT name, email FROM customers WHERE country = '...';",
+        },
+        {
+          id: "order-limit",
+          language: "sql",
+          prompt: "Write a query returning the top 5 highest orders from `orders`, sorted by total descending.",
+          checks: [/select/i, /from\s+orders/i, /order\s+by/i, /total/i, /desc/i, /limit\s+5/i],
+          solution: "SELECT * FROM orders ORDER BY total DESC LIMIT 5;",
+          hint: "Use ORDER BY total DESC and LIMIT 5.",
+        },
+      ],
       quiz: [
         {
           question: "What does a row represent in a database table?",
@@ -115,6 +133,24 @@ A **primary key** uniquely identifies a row within its own table (\`customers.id
       ],
       project:
         "Given a `students` table and an `enrollments` table (enrollments has a student_id foreign key), write a LEFT JOIN query that lists every student and the courses they're enrolled in, including students with zero enrollments.",
+      codeChallenges: [
+        {
+          id: "inner-join",
+          language: "sql",
+          prompt: "Write an INNER JOIN query that returns each order's id and the matching customer's name from `orders` and `customers`.",
+          checks: [/select/i, /inner\s+join/i, /orders/i, /customers/i, /\bon\b/i],
+          solution: "SELECT orders.id, customers.name\nFROM orders\nINNER JOIN customers ON orders.customer_id = customers.id;",
+          hint: "FROM orders INNER JOIN customers ON orders.customer_id = customers.id",
+        },
+        {
+          id: "left-join",
+          language: "sql",
+          prompt: "Write a LEFT JOIN query that lists every customer's name plus any order id, including customers with zero orders.",
+          checks: [/select/i, /left\s+join/i, /customers/i, /orders/i, /\bon\b/i],
+          solution: "SELECT customers.name, orders.id\nFROM customers\nLEFT JOIN orders ON customers.id = orders.customer_id;",
+          hint: "FROM customers LEFT JOIN orders ON customers.id = orders.customer_id",
+        },
+      ],
       quiz: [
         {
           question: "What's the key difference between INNER JOIN and LEFT JOIN?",
@@ -186,6 +222,24 @@ A query can combine JOIN, WHERE, GROUP BY, and HAVING: join orders to customers,
       ],
       project:
         "Write a query against an `orders` table (columns: id, customer_id, total, status) that returns each customer_id along with their total spend, but only for orders with status = 'completed', and only includes customers whose total spend exceeds $500.",
+      codeChallenges: [
+        {
+          id: "group-by-count",
+          language: "sql",
+          prompt: "Write a query that returns each customer_id from `orders` along with how many orders they've placed, using GROUP BY.",
+          checks: [/select/i, /count\(\*\)/i, /group\s+by/i, /customer_id/i, /from\s+orders/i],
+          solution: "SELECT customer_id, COUNT(*) AS order_count\nFROM orders\nGROUP BY customer_id;",
+          hint: "SELECT customer_id, COUNT(*) ... GROUP BY customer_id",
+        },
+        {
+          id: "having",
+          language: "sql",
+          prompt: "Write a query that returns each customer_id and their total spend from `orders`, but only customers whose total spend exceeds 1000.",
+          checks: [/select/i, /sum\(total\)/i, /group\s+by/i, /having/i, /1000/],
+          solution: "SELECT customer_id, SUM(total) AS total_spent\nFROM orders\nGROUP BY customer_id\nHAVING SUM(total) > 1000;",
+          hint: "GROUP BY customer_id then HAVING SUM(total) > 1000",
+        },
+      ],
       quiz: [
         {
           question: "What does GROUP BY do?",
@@ -263,6 +317,24 @@ A transaction groups multiple statements so they all succeed or all fail togethe
         "CREATE TABLE defines columns and constraints like PRIMARY KEY, NOT NULL, and UNIQUE.",
         "Never concatenate raw user input into SQL strings — use parameterized queries to prevent SQL injection.",
         "Transactions (BEGIN/COMMIT/ROLLBACK) ensure a group of statements all succeed or all fail together.",
+      ],
+      codeChallenges: [
+        {
+          id: "update-where",
+          language: "sql",
+          prompt: "Update the email of the customer with id = 5 to 'new@example.com' — make sure only that row changes.",
+          checks: [/update\s+customers/i, /set/i, /email/i, /where/i, /id\s*=\s*5/i],
+          solution: "UPDATE customers SET email = 'new@example.com' WHERE id = 5;",
+          hint: "UPDATE customers SET email = '...' WHERE id = 5;",
+        },
+        {
+          id: "insert",
+          language: "sql",
+          prompt: "Insert a new customer named 'Grace Hopper' with email 'grace@example.com' into the customers table.",
+          checks: [/insert\s+into\s+customers/i, /grace hopper/i, /grace@example\.com/i, /values/i],
+          solution: "INSERT INTO customers (name, email) VALUES ('Grace Hopper', 'grace@example.com');",
+          hint: "INSERT INTO customers (name, email) VALUES ('Grace Hopper', 'grace@example.com');",
+        },
       ],
       quiz: [
         {

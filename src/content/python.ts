@@ -54,6 +54,16 @@ The \`f\` before the quote lets you embed variables directly inside \`{}\` brace
         "== checks equality; = assigns a value — they are not interchangeable.",
         "f-strings (f\"text {variable}\") are the standard way to build strings with embedded values.",
       ],
+      codeChallenges: [
+        {
+          id: "fstring-greeting",
+          language: "python",
+          prompt: 'Create a variable `name` set to a string, then print an f-string greeting: "Hello, <name>!"',
+          checks: [/name\s*=\s*["']/, /f["']/, /print\(/, /hello/i],
+          solution: 'name = "Ada"\nprint(f"Hello, {name}!")',
+          hint: 'Set name = "..." then print(f"Hello, {name}!")',
+        },
+      ],
       quiz: [
         {
           question: "What type is the value produced by `1.7`?",
@@ -137,6 +147,24 @@ for n in range(10):
       ],
       project:
         "Write a script that loops from 1 to 50 and prints 'fizz' if the number is divisible by 3, 'buzz' if divisible by 5, 'fizzbuzz' if divisible by both, and the number otherwise (the classic FizzBuzz exercise).",
+      codeChallenges: [
+        {
+          id: "for-range",
+          language: "python",
+          prompt: "Write a for loop that prints the numbers 0 through 4 using range().",
+          checks: [/for\s+\w+\s+in\s+range\(\s*5\s*\)/, /print\(/],
+          solution: "for i in range(5):\n    print(i)",
+          hint: "for i in range(5):\\n    print(i)",
+        },
+        {
+          id: "while-loop",
+          language: "python",
+          prompt: "Write a while loop that prints 0, 1, 2 — starting a counter at 0, printing it, then incrementing by 1 until it reaches 3.",
+          checks: [/while\s+\w+\s*<\s*3/, /print\(/, /\+=\s*1/],
+          solution: "count = 0\nwhile count < 3:\n    print(count)\n    count += 1",
+          hint: "while count < 3: print(count); count += 1",
+        },
+      ],
       quiz: [
         {
           question: "What defines a code block in Python (instead of curly braces)?",
@@ -207,6 +235,24 @@ Almost every real program is some combination of: store data in a list or dictio
       ],
       project:
         "Write a function `word_count(text)` that takes a sentence (string), splits it into words, and returns a dictionary mapping each word to how many times it appears.",
+      codeChallenges: [
+        {
+          id: "dict-get-default",
+          language: "python",
+          prompt: 'Given person = {"name": "Ada"}, safely look up "job" with a default of "unknown" using .get().',
+          checks: [/\.get\(\s*["']job["']\s*,\s*["']unknown["']\s*\)/i],
+          solution: 'person.get("job", "unknown")',
+          hint: 'person.get("job", "unknown")',
+        },
+        {
+          id: "function-default-param",
+          language: "python",
+          prompt: 'Define a function greet(name, greeting="Hello") that returns f"{greeting}, {name}!"',
+          checks: [/def\s+greet\(/, /greeting\s*=\s*["']Hello["']/, /return/, /f["']/],
+          solution: 'def greet(name, greeting="Hello"):\n    return f"{greeting}, {name}!"',
+          hint: 'def greet(name, greeting="Hello"):\\n    return f"{greeting}, {name}!"',
+        },
+      ],
       quiz: [
         {
           question: "What does `fruits[-1]` return for the list `[\"apple\", \"banana\", \"cherry\"]`?",
@@ -277,6 +323,16 @@ A virtual environment (\`python -m venv .venv\`) creates an isolated set of inst
         "import brings in standard library or third-party code; pip install adds third-party packages.",
         "requirements.txt records a project's exact dependencies so they can be reinstalled elsewhere.",
         "Virtual environments isolate each project's packages to avoid version conflicts.",
+      ],
+      codeChallenges: [
+        {
+          id: "try-except",
+          language: "python",
+          prompt: 'Write a try/except block that converts user input to int() and catches ValueError, printing "invalid" if it fails.',
+          checks: [/try:/, /except\s+ValueError/, /print\(/],
+          solution: 'try:\n    number = int(input())\nexcept ValueError:\n    print("invalid")',
+          hint: "try: ... except ValueError: print(...)",
+        },
       ],
       quiz: [
         {
