@@ -171,6 +171,10 @@ function McLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { type:
     if (i === lesson.correctIndex) onPassed();
   }
 
+  function retry() {
+    setSelected(null);
+  }
+
   return (
     <div className="space-y-3">
       <p className="font-medium">{lesson.question}</p>
@@ -196,6 +200,11 @@ function McLessonView({ lesson, onPassed }: { lesson: Extract<SqlLesson, { type:
         })}
       </div>
       {selected !== null && <p className="quiz-explain text-xs text-slate-400">{lesson.explanation}</p>}
+      {selected !== null && selected !== lesson.correctIndex && (
+        <button onClick={retry} className="px-3 py-1.5 rounded-md border border-slate-600 text-sm text-slate-300">
+          Retry
+        </button>
+      )}
     </div>
   );
 }
