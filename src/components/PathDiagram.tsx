@@ -189,5 +189,38 @@ export default function PathDiagram({ kind }: { kind: PathDiagramKind }) {
     );
   }
 
+  if (kind === "redirect") {
+    return (
+      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+        <div className="flex items-center justify-center gap-1 flex-wrap font-mono text-xs sm:text-sm">
+          <Box color="indigo">echo "hello"</Box>
+          <Arrow label=">" />
+          <Box color="slate">notes.txt</Box>
+        </div>
+        <p className="text-[10px] sm:text-xs text-slate-500 text-center mt-2">
+          Instead of printing to the terminal, the command's output is written into the file — overwriting it with{" "}
+          <code>&gt;</code>, or appended with <code>&gt;&gt;</code>.
+        </p>
+      </div>
+    );
+  }
+
+  if (kind === "pipe") {
+    return (
+      <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-4 mb-3">
+        <div className="flex items-center justify-center gap-1 flex-wrap font-mono text-xs sm:text-sm">
+          <Box color="indigo">cat server.log</Box>
+          <Arrow label="|" />
+          <Box color="green">grep "500"</Box>
+          <Arrow label="→" />
+          <Box color="slate">matching lines</Box>
+        </div>
+        <p className="text-[10px] sm:text-xs text-slate-500 text-center mt-2">
+          The pipe feeds the output of the command on the left in as input to the command on the right.
+        </p>
+      </div>
+    );
+  }
+
   return null;
 }

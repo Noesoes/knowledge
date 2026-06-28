@@ -6,6 +6,7 @@ import LessonPathPage from "./pages/LessonPathPage";
 import { pythonUnits } from "./content/pythonPath";
 import { apisUnits } from "./content/apisPath";
 import { gitUnits } from "./content/gitPath";
+import { cliUnits } from "./content/cliPath";
 
 export default function App() {
   return (
@@ -48,6 +49,19 @@ export default function App() {
               icon="🔌"
               units={apisUnits}
               storagePrefix="apispath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/cli-path"
+          element={
+            <LessonPathPage
+              title="Command Line Basics"
+              icon="⌨️"
+              units={cliUnits}
+              storagePrefix="clipath"
               backHref="/"
               backLabel="Back to all paths"
             />

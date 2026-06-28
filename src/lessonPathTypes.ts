@@ -7,7 +7,9 @@ export type PathDiagramKind =
   | "oauth"
   | "websocket"
   | "webhook"
-  | "rate-limit";
+  | "rate-limit"
+  | "redirect"
+  | "pipe";
 
 export interface PathMcLesson {
   id: string;
