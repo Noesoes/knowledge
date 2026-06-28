@@ -122,6 +122,32 @@ A commit message should explain **why**, not just restate the diff. "Fix bug" te
       ],
       project:
         "Create a new folder, run `git init`, add a README.md file, stage it, and commit it with a meaningful message. Then make a small edit and create a second commit. Run `git log` and read both commit messages back.",
+      codeChallenges: [
+        {
+          id: "stage-and-commit",
+          language: "bash",
+          prompt: 'Stage every changed file and commit with the message "Initial commit".',
+          checks: [/git add \./i, /git commit\s+-m\s+["']initial commit["']/i],
+          solution: 'git add .\ngit commit -m "Initial commit"',
+          hint: 'git add . then git commit -m "Initial commit"',
+        },
+        {
+          id: "undo-uncommitted",
+          language: "bash",
+          prompt: "Discard uncommitted changes to a file called index.js.",
+          checks: [/git restore\s+index\.js/i],
+          solution: "git restore index.js",
+          hint: "git restore <file>",
+        },
+        {
+          id: "revert-a-commit",
+          language: "bash",
+          prompt: "Safely undo a commit with hash abc123 without rewriting shared history.",
+          checks: [/git revert\s+abc123/i],
+          solution: "git revert abc123",
+          hint: "git revert <commit> creates a new commit instead of rewriting history.",
+        },
+      ],
       quiz: [
         {
           question: "Which command uploads your local commits to a remote repository like GitHub?",
@@ -190,6 +216,24 @@ Every developer hits merge conflicts regularly. They are not a sign you did some
       ],
       project:
         "In your practice repo, create a branch called `feature/test`, edit README.md, commit the change, switch back to `main`, and merge the feature branch in. Then intentionally edit the same line on two different branches to trigger a merge conflict, and resolve it.",
+      codeChallenges: [
+        {
+          id: "create-and-switch-branch",
+          language: "bash",
+          prompt: "Create and switch to a new branch called feature/login in a single command.",
+          checks: [/git (checkout -b|switch -c)\s+feature\/login/i],
+          solution: "git switch -c feature/login",
+          hint: "git switch -c <name> or git checkout -b <name>",
+        },
+        {
+          id: "merge-into-main",
+          language: "bash",
+          prompt: "Switch to main and merge the branch feature/login into it.",
+          checks: [/git (checkout|switch)\s+main/i, /git merge\s+feature\/login/i],
+          solution: "git checkout main\ngit merge feature/login",
+          hint: "git checkout main then git merge feature/login",
+        },
+      ],
       quiz: [
         {
           question: "Why do teams avoid committing directly to the main branch?",

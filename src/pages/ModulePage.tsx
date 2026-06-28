@@ -63,7 +63,7 @@ export default function ModulePage() {
       <h2 className="text-xl font-semibold mb-4">Check your understanding</h2>
       <Quiz key={module.id} questions={module.quiz} onPassed={() => markComplete(course.id, module.id)} />
 
-      <div className="flex items-center justify-between mt-10 pt-6 border-t border-slate-800">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-10 pt-6 border-t border-slate-800">
         {prev ? (
           <Link to={`/course/${course.id}/module/${prev.id}`} className="text-sm text-slate-400 hover:text-slate-200">
             ← {prev.title}
@@ -74,7 +74,7 @@ export default function ModulePage() {
         {next ? (
           <Link
             to={`/course/${course.id}/module/${next.id}`}
-            className="text-sm px-4 py-2 rounded-md bg-indigo-600 text-white font-medium"
+            className="text-sm px-4 py-2 rounded-md bg-indigo-600 text-white font-medium self-stretch sm:self-auto text-center"
           >
             Next: {next.title} →
           </Link>

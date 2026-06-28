@@ -3,7 +3,9 @@ import { courses } from "../content";
 import { useProgress } from "../useProgress";
 
 export default function Home() {
-  const { courseProgress } = useProgress();
+  const { courseProgress, totalCompleted, streakDays, dueForReview } = useProgress();
+  const streak = streakDays();
+  const due = dueForReview().length;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
@@ -16,6 +18,28 @@ export default function Home() {
           stick.
         </p>
       </section>
+
+      {totalCompleted > 0 && (
+        <section className="mb-12 grid grid-cols-3 gap-3 sm:gap-5">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-center">
+            <p className="text-2xl sm:text-3xl font-bold text-indigo-300">{totalCompleted}</p>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">modules done</p>
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-center">
+            <p className="text-2xl sm:text-3xl font-bold text-amber-300">
+              {streak}🔥
+            </p>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">day streak</p>
+          </div>
+          <Link
+            to="/review"
+            className="rounded-xl border border-slate-800 hover:border-indigo-500 bg-slate-900/40 p-4 text-center transition-colors"
+          >
+            <p className="text-2xl sm:text-3xl font-bold text-green-300">{due}</p>
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">due for review</p>
+          </Link>
+        </section>
+      )}
 
       <section className="grid sm:grid-cols-2 gap-5">
         {courses.map((course) => {

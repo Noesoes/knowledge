@@ -65,8 +65,8 @@ export default function SqlPlayground() {
 
   return (
     <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-4 space-y-3">
-      <div className="flex items-center justify-between">
-        <p className="font-semibold text-indigo-300">SQL playground — real mock data, runs in your browser</p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="font-semibold text-indigo-300 text-sm sm:text-base">SQL playground — real mock data, runs in your browser</p>
         <button onClick={() => setShowSchema((s) => !s)} className="text-sm text-slate-400 hover:text-slate-200">
           {showSchema ? "Hide tables" : "Show tables"}
         </button>
@@ -94,7 +94,7 @@ export default function SqlPlayground() {
         className="w-full font-mono text-sm rounded-md border border-slate-700 focus:border-indigo-500 bg-slate-950 text-slate-100 p-3 outline-none"
       />
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={run}
           disabled={!ready || query.trim() === ""}

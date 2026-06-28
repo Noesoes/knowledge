@@ -45,7 +45,7 @@ export default function CodeChallengeBlock({ challenge }: { challenge: CodeChall
         ].join(" ")}
       />
 
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <button
           onClick={run}
           disabled={value.trim() === ""}
@@ -58,7 +58,7 @@ export default function CodeChallengeBlock({ challenge }: { challenge: CodeChall
         </button>
         <button
           onClick={() => setShowSolution((s) => !s)}
-          className="text-sm text-slate-400 hover:text-slate-200 ml-auto"
+          className="text-sm text-slate-400 hover:text-slate-200 sm:ml-auto"
         >
           {showSolution ? "Hide solution" : "Show solution"}
         </button>
