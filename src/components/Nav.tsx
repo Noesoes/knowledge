@@ -10,12 +10,20 @@ export default function Nav() {
         <p className="text-xs text-slate-500 hidden md:block">
           Learn to be a developer — not just to write code.
         </p>
-        <Link
-          to="/review"
-          className="shrink-0 text-xs sm:text-sm px-3 py-1.5 rounded-md border border-slate-700 hover:border-indigo-500 text-slate-300"
-        >
-          Review
-        </Link>
+        <div className="flex items-center gap-2 shrink-0">
+          <Link
+            to="/sql-path"
+            className="text-xs sm:text-sm px-3 py-1.5 rounded-md border border-slate-700 hover:border-indigo-500 text-slate-300"
+          >
+            SQL Path
+          </Link>
+          <Link
+            to="/review"
+            className="text-xs sm:text-sm px-3 py-1.5 rounded-md border border-slate-700 hover:border-indigo-500 text-slate-300"
+          >
+            Review
+          </Link>
+        </div>
       </div>
     </header>
   );

@@ -25,6 +25,18 @@ export default function CoursePage() {
         <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
       </div>
 
+      {course.id === "sql" && (
+        <Link
+          to="/sql-path"
+          className="block mb-8 rounded-lg border border-indigo-700 bg-indigo-950/30 px-4 py-3 hover:border-indigo-500 transition-colors"
+        >
+          <p className="font-semibold text-indigo-300">🧭 Try the interactive SQL path instead</p>
+          <p className="text-sm text-slate-400">
+            A Duolingo-style lesson path with XP, streaks, and a live schema you can query against.
+          </p>
+        </Link>
+      )}
+
       <ol className="space-y-3">
         {course.modules.map((mod, idx) => {
           const done = isComplete(course.id, mod.id);
