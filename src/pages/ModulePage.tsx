@@ -4,6 +4,7 @@ import { useProgress } from "../useProgress";
 import Lesson from "../components/Lesson";
 import Quiz from "../components/Quiz";
 import CodeChallengeBlock from "../components/CodeChallenge";
+import SqlPlayground from "../components/SqlPlayground";
 
 export default function ModulePage() {
   const { courseId, moduleId } = useParams();
@@ -38,6 +39,13 @@ export default function ModulePage() {
         <div className="mb-8 rounded-lg border border-amber-800 bg-amber-950/20 p-4">
           <p className="font-semibold mb-2 text-amber-300">Practice project</p>
           <p className="text-sm text-slate-300">{module.project}</p>
+        </div>
+      )}
+
+      {course.id === "sql" && (
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Practice on real mock data</h2>
+          <SqlPlayground />
         </div>
       )}
 
