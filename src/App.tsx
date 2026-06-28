@@ -1,13 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
-import CoursePage from "./pages/CoursePage";
-import ModulePage from "./pages/ModulePage";
-import ReviewPage from "./pages/ReviewPage";
 import SqlCoursePage from "./pages/SqlCoursePage";
 import LessonPathPage from "./pages/LessonPathPage";
 import { pythonUnits } from "./content/pythonPath";
 import { apisUnits } from "./content/apisPath";
+import { gitUnits } from "./content/gitPath";
 
 export default function App() {
   return (
@@ -15,10 +13,20 @@ export default function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/course/:courseId" element={<CoursePage />} />
-        <Route path="/course/:courseId/module/:moduleId" element={<ModulePage />} />
-        <Route path="/review" element={<ReviewPage />} />
         <Route path="/sql-path" element={<SqlCoursePage />} />
+        <Route
+          path="/git-path"
+          element={
+            <LessonPathPage
+              title="Git & GitHub"
+              icon="🌱"
+              units={gitUnits}
+              storagePrefix="gitpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
         <Route
           path="/python-path"
           element={
@@ -27,8 +35,8 @@ export default function App() {
               icon="🐍"
               units={pythonUnits}
               storagePrefix="pythonpath"
-              backHref="/course/python"
-              backLabel="Back to Python course overview"
+              backHref="/"
+              backLabel="Back to all paths"
             />
           }
         />
@@ -40,8 +48,8 @@ export default function App() {
               icon="🔌"
               units={apisUnits}
               storagePrefix="apispath"
-              backHref="/course/apis"
-              backLabel="Back to APIs course overview"
+              backHref="/"
+              backLabel="Back to all paths"
             />
           }
         />

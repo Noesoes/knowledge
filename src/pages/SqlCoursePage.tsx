@@ -319,8 +319,8 @@ export default function SqlCoursePage() {
     <div className="max-w-6xl mx-auto px-4 py-6">
       {showConfetti && <ConfettiBurst />}
 
-      <Link to="/course/sql" className="text-sm text-slate-500 hover:text-slate-300">
-        ← Back to SQL course overview
+      <Link to="/" className="text-sm text-slate-500 hover:text-slate-300">
+        ← Back to all paths
       </Link>
 
       <div className="flex items-center justify-between mt-3 mb-4 md:hidden">

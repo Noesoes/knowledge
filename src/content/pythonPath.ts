@@ -9,6 +9,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-var-1",
         title: "Variables",
+        content:
+          "A variable is a name bound to a value. Python doesn't require declaring a type up front — it figures the type out from the value itself: name = \"Ada\" (str), age = 36 (int), height = 1.7 (float), is_active = True (bool). Core types: str, int, float, bool, and None (represents 'no value').",
         question: "Which of these is a valid Python variable assignment?",
         options: ["name => 'Ada'", "name = 'Ada'", "let name = 'Ada'", "var name == 'Ada'"],
         correctIndex: 1,
@@ -64,6 +66,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-cf-1",
         title: "if/elif/else",
+        content:
+          "Python uses indentation (not curly braces) to define which lines belong to a block — incorrect indentation is a syntax error. for loops iterate over a known sequence: for fruit in [\"apple\", \"banana\"]: print(fruit), or for i in range(5): (0 through 4). while loops repeat as long as a condition stays true. break exits a loop entirely; continue skips just the current iteration.",
         question: "What defines a code block in Python instead of curly braces?",
         options: ["Semicolons", "Indentation", "Parentheses", "The word 'block'"],
         correctIndex: 1,
@@ -134,6 +138,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-ds-1",
         title: "Lists",
+        content:
+          "Lists are ordered, changeable collections: fruits = [\"apple\", \"banana\"]; fruits.append(\"date\") adds to the end; fruits[0] accesses by index; fruits[-1] counts from the end; len(fruits) gives the count. Dictionaries store key/value pairs: person = {\"name\": \"Ada\"}; person[\"name\"] reads a value; person.get(\"job\", \"n/a\") is a safe lookup with a default.",
         question: "What does `fruits[-1]` return for `[\"apple\", \"banana\", \"cherry\"]`?",
         options: ["apple", "banana", "cherry", "An error"],
         correctIndex: 2,
@@ -199,6 +205,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-fn-1",
         title: "Defining functions",
+        content:
+          "Functions are reusable blocks of logic: def greet(name, greeting=\"Hello\"): return f\"{greeting}, {name}!\". Functions take parameters, can have default values, and return a value with the return keyword. A function with no return statement implicitly returns None.",
         question: "Which keyword defines a function in Python?",
         options: ["function", "func", "def", "fn"],
         correctIndex: 2,
@@ -308,6 +316,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-err-1",
         title: "try/except basics",
+        content:
+          "Errors (\"exceptions\") happen — a file might not exist, a user might type text where you expected a number. try/except lets your program handle that gracefully instead of crashing: try: number = int(input()) except ValueError: print(\"invalid\"). Catch specific exception types rather than a bare except: — catching everything blindly hides real bugs along with the expected errors.",
         question: "What is the purpose of a `try`/`except` block?",
         options: [
           "To speed up code execution",
@@ -450,6 +460,8 @@ export const pythonUnits: PathUnit[] = [
       {
         id: "py-adv-1",
         title: "Imports",
+        content:
+          "Python's standard library and the broader package ecosystem (installed via pip) provide huge amounts of pre-written functionality: import math gives you math.sqrt(16); from datetime import date gives you date.today(); import requests (a third-party package installed via pip install requests) lets you call web APIs. A virtual environment (python -m venv .venv) isolates a project's installed packages so different projects can use different versions without conflict.",
         question: "What does `import math` allow you to do?",
         options: [
           "Use functions like math.sqrt() from the math module",

@@ -9,6 +9,8 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-fund-1",
         title: "What is an API?",
+        content:
+          "An API is a defined way for one piece of software to request something from, or send something to, another piece of software — without needing to know how that other software is built internally. Most APIs you'll deal with day to day are web APIs — they run over HTTP, the same protocol your browser uses to load web pages.",
         question: "In simple terms, what is an API?",
         options: [
           "A type of database",
@@ -89,6 +91,8 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-http-1",
         title: "HTTP methods",
+        content:
+          "HTTP methods express intent: GET retrieves data (should never change anything), POST creates something new, PUT replaces a resource entirely, PATCH partially updates it, DELETE removes it. Status codes summarize the outcome: 2xx success, 3xx redirect, 4xx client error, 5xx server error. APIs almost universally exchange data as JSON.",
         question: "Which HTTP method is meant for creating a new resource?",
         options: ["GET", "POST", "DELETE", "OPTIONS"],
         correctIndex: 1,
@@ -159,6 +163,8 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-rest-1",
         title: "Resources as nouns",
+        content:
+          "REST (Representational State Transfer) is a style of API design. A RESTful API organizes functionality around resources (nouns) — /users, /orders — not actions like /getUser. It uses HTTP methods to express the action on that resource, and is stateless: each request contains everything needed to process it.",
         question: "Which URL design follows REST conventions?",
         options: ["GET /getAllUsers", "POST /deleteUser", "DELETE /users/42", "GET /user-deletion-action"],
         correctIndex: 2,
@@ -239,6 +245,8 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-auth-1",
         title: "AuthN vs AuthZ",
+        content:
+          "Authentication answers 'who are you?' — proving identity via a password, token, or API key. Authorization answers 'what are you allowed to do?' once identified. Common methods: API keys (sent in a header, treat like a password), bearer tokens/JWTs (Authorization: Bearer <token>), and OAuth (lets a user grant a third-party app limited access without sharing their password).",
         question: "What's the difference between authentication and authorization?",
         options: [
           "They're the same thing",

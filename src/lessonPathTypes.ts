@@ -1,6 +1,7 @@
 export interface PathMcLesson {
   id: string;
   title: string;
+  content?: string;
   question: string;
   options: string[];
   correctIndex: number;

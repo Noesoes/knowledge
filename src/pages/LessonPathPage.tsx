@@ -164,6 +164,11 @@ export default function LessonPathPage({
           <h2 className="text-xl sm:text-2xl font-bold mb-4">{lesson.title}</h2>
 
           <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-4 space-y-3">
+            {lesson.content && (
+              <div className="text-sm text-slate-300 whitespace-pre-line border-b border-slate-800 pb-3 mb-1">
+                {lesson.content}
+              </div>
+            )}
             <p className="font-medium">{lesson.question}</p>
             <div className="space-y-2">
               {lesson.options.map((opt, i) => {
