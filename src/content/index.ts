@@ -1,11 +1,10 @@
-import { learningScience } from "./learning-science";
 import { gitGithub } from "./git-github";
 import { python } from "./python";
 import { sql } from "./sql";
 import { apis } from "./apis";
 import type { Course } from "../types";
 
-export const courses: Course[] = [learningScience, gitGithub, python, sql, apis];
+export const courses: Course[] = [gitGithub, python, sql, apis];
 
 export function getCourse(id: string): Course | undefined {
   return courses.find((c) => c.id === id);
