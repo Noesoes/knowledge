@@ -71,6 +71,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-fund-6",
         title: "Request/response",
+        diagram: "client-server",
         question: "What is the basic structure of an HTTP API interaction?",
         options: [
           "The client sends a request, the server sends back a response",
@@ -91,6 +92,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-http-1",
         title: "HTTP methods",
+        diagram: "rest-methods",
         content:
           "HTTP methods express intent: GET retrieves data (should never change anything), POST creates something new, PUT replaces a resource entirely, PATCH partially updates it, DELETE removes it. Status codes summarize the outcome: 2xx success, 3xx redirect, 4xx client error, 5xx server error. APIs almost universally exchange data as JSON.",
         question: "Which HTTP method is meant for creating a new resource?",
@@ -114,6 +116,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-http-3",
         title: "2xx status codes",
+        diagram: "status-codes",
         question: "What does a `201` status code typically mean?",
         options: ["The request failed", "A new resource was successfully created", "The server is redirecting", "Rate limit exceeded"],
         correctIndex: 1,
@@ -199,6 +202,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-rest-4",
         title: "Nested resources",
+        diagram: "rest-url",
         question: "What does `GET /articles/7/comments` represent?",
         options: [
           "Deleting article 7",
@@ -273,6 +277,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-auth-3",
         title: "Bearer tokens",
+        diagram: "bearer-token",
         question: "What does sending `Authorization: Bearer <token>` typically prove?",
         options: [
           "Nothing, it's just a convention",
@@ -286,6 +291,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-auth-4",
         title: "OAuth",
+        diagram: "oauth",
         question: "What problem does OAuth solve?",
         options: [
           "It speeds up API responses",
@@ -358,6 +364,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-work-3",
         title: "Rate limiting",
+        diagram: "rate-limit",
         question: "What does a `429 Too Many Requests` status code indicate?",
         options: [
           "The request succeeded",
@@ -384,6 +391,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-work-5",
         title: "Webhooks",
+        diagram: "webhook",
         question: "How does a webhook differ from a typical API call?",
         options: [
           "A webhook is just another name for a GET request",
@@ -417,6 +425,7 @@ export const apisUnits: PathUnit[] = [
       {
         id: "api-adv-2",
         title: "WebSockets",
+        diagram: "websocket",
         question: "When would you reach for WebSockets instead of regular HTTP requests?",
         options: [
           "For a one-time form submission",

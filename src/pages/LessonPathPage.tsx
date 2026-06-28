@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { PathUnit } from "../lessonPathTypes";
 import { useLessonPathProgress } from "../useLessonPathProgress";
+import PathDiagram from "../components/PathDiagram";
 
 function ConfettiBurst() {
   const pieces = useMemo(
@@ -162,6 +163,8 @@ export default function LessonPathPage({
 
         <main className="flex-1 min-w-0">
           <h2 className="text-xl sm:text-2xl font-bold mb-4">{lesson.title}</h2>
+
+          {lesson.diagram && <PathDiagram kind={lesson.diagram} />}
 
           <div className="rounded-lg border border-slate-700 bg-slate-900/40 p-4 space-y-3">
             {lesson.content && (
