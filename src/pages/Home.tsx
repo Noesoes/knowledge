@@ -1,111 +1,426 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLessonPathProgress } from "../useLessonPathProgress";
 import { useSqlPathProgress } from "../useSqlPathProgress";
 import { gitUnits } from "../content/gitPath";
+import { gitBranchingUnits } from "../content/gitBranchingPath";
+import { gitTeamsUnits } from "../content/gitTeamsPath";
 import { pythonUnits } from "../content/pythonPath";
+import { pythonDataStructuresUnits } from "../content/pythonDataStructuresPath";
+import { pythonDebuggingUnits } from "../content/pythonDebuggingPath";
 import { apisUnits } from "../content/apisPath";
+import { apisDesignUnits } from "../content/apisDesignPath";
+import { apisAuthUnits } from "../content/apisAuthPath";
 import { cliUnits } from "../content/cliPath";
+import { cliScriptingUnits } from "../content/cliScriptingPath";
+import { cliPowerUserUnits } from "../content/cliPowerUserPath";
+import { sqlJoinsUnits } from "../content/sqlJoinsPath";
+import { sqlDesignUnits } from "../content/sqlDesignPath";
 
-const paths = [
+interface CourseMeta {
+  id: string;
+  href: string;
+  icon: string;
+  title: string;
+  tagline: string;
+  level: "Beginner" | "Intermediate" | "Advanced";
+  minutes: number;
+  rating: number;
+  reviews: number;
+  banner: string;
+}
+
+interface Subject {
+  id: string;
+  title: string;
+  blurb: string;
+  courses: CourseMeta[];
+}
+
+const subjects: Subject[] = [
   {
     id: "git",
-    href: "/git-path",
-    icon: "🌱",
     title: "Git & GitHub",
-    tagline: "Version control isn't optional — it's how all real software gets built.",
-    level: "Beginner",
-    minutes: 35,
-    learn: ["Commits, staging, and history", "Branching and merge conflicts", "Pull requests and code review"],
-    banner: "#5b9dff",
+    blurb: "Version control isn't optional — it's how all real software gets built.",
+    courses: [
+      {
+        id: "git-core",
+        href: "/git-path",
+        icon: "🌱",
+        title: "Git & GitHub Fundamentals",
+        tagline: "Commits, staging, branching, and pull requests from the ground up.",
+        level: "Beginner",
+        minutes: 35,
+        rating: 4.8,
+        reviews: 1842,
+        banner: "#5b9dff",
+      },
+      {
+        id: "git-branching",
+        href: "/git-branching-path",
+        icon: "🌿",
+        title: "Git Branching Deep Dive",
+        tagline: "Rebase vs merge, conflict resolution, stashing, and cherry-picking.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 612,
+        banner: "#3ecf8e",
+      },
+      {
+        id: "git-teams",
+        href: "/git-teams-path",
+        icon: "🤝",
+        title: "Git for Teams: Workflows & Collaboration",
+        tagline: "Branch protection, squash merges, force-pushes, and review etiquette.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 388,
+        banner: "#c792ea",
+      },
+    ],
   },
   {
     id: "cli",
-    href: "/cli-path",
-    icon: "⌨️",
     title: "Command Line Basics",
-    tagline: "The terminal is the universal interface for working with servers and tools.",
-    level: "Beginner",
-    minutes: 30,
-    learn: ["Navigating the filesystem", "Files, pipes, and redirection", "Everyday productivity tricks"],
-    banner: "#3ecf8e",
+    blurb: "The terminal is the universal interface for working with servers and tools.",
+    courses: [
+      {
+        id: "cli-core",
+        href: "/cli-path",
+        icon: "⌨️",
+        title: "Command Line Basics",
+        tagline: "Navigating the filesystem, files, pipes, and redirection.",
+        level: "Beginner",
+        minutes: 30,
+        rating: 4.7,
+        reviews: 1530,
+        banner: "#3ecf8e",
+      },
+      {
+        id: "cli-scripting",
+        href: "/cli-scripting-path",
+        icon: "📜",
+        title: "Shell Scripting Essentials",
+        tagline: "Variables, conditionals, loops, and writing your first real script.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 524,
+        banner: "#5b9dff",
+      },
+      {
+        id: "cli-poweruser",
+        href: "/cli-poweruser-path",
+        icon: "⚡",
+        title: "Power User CLI Tricks",
+        tagline: "grep, xargs, background jobs, ssh, and aliases that save real time.",
+        level: "Advanced",
+        minutes: 25,
+        rating: 4.8,
+        reviews: 701,
+        banner: "#ffb454",
+      },
+    ],
   },
   {
     id: "python",
-    href: "/python-path",
-    icon: "🐍",
     title: "Python Fundamentals",
-    tagline: "A practical first language: readable syntax, huge ecosystem.",
-    level: "Beginner",
-    minutes: 90,
-    learn: ["Variables, control flow, and functions", "Lists, dicts, and data structures", "Errors and debugging"],
-    banner: "#ffb454",
+    blurb: "A practical first language: readable syntax, huge ecosystem.",
+    courses: [
+      {
+        id: "python-core",
+        href: "/python-path",
+        icon: "🐍",
+        title: "Python Fundamentals",
+        tagline: "Variables, control flow, functions, and core data structures.",
+        level: "Beginner",
+        minutes: 90,
+        rating: 4.9,
+        reviews: 2415,
+        banner: "#ffb454",
+      },
+      {
+        id: "python-datastructures",
+        href: "/python-datastructures-path",
+        icon: "📦",
+        title: "Python Data Structures Deep Dive",
+        tagline: "Lists, dicts, sets, comprehensions, and dataclasses.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 689,
+        banner: "#c792ea",
+      },
+      {
+        id: "python-debugging",
+        href: "/python-debugging-path",
+        icon: "🐞",
+        title: "Python Error Handling & Debugging",
+        tagline: "try/except, custom exceptions, tracebacks, and real debugging.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 433,
+        banner: "#5b9dff",
+      },
+    ],
   },
   {
     id: "sql",
-    href: "/sql-path",
-    icon: "🗄️",
     title: "SQL & Databases",
-    tagline: "Almost every application stores data in a database — SQL is how you talk to it.",
-    level: "Intermediate",
-    minutes: 75,
-    learn: ["Querying and filtering data", "Joins across tables", "Writing real SQL against a live database"],
-    banner: "#c792ea",
+    blurb: "Almost every application stores data in a database — SQL is how you talk to it.",
+    courses: [
+      {
+        id: "sql-core",
+        href: "/sql-path",
+        icon: "🗄️",
+        title: "SQL & Databases",
+        tagline: "Querying, filtering, and joins — written against a real live database.",
+        level: "Intermediate",
+        minutes: 75,
+        rating: 4.8,
+        reviews: 1207,
+        banner: "#c792ea",
+      },
+      {
+        id: "sql-joins",
+        href: "/sql-joins-path",
+        icon: "🔗",
+        title: "SQL Joins Deep Dive",
+        tagline: "INNER vs LEFT, self joins, UNION, and avoiding duplicate rows.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 502,
+        banner: "#5b9dff",
+      },
+      {
+        id: "sql-design",
+        href: "/sql-design-path",
+        icon: "📐",
+        title: "Database Design Basics",
+        tagline: "Primary/foreign keys, normalization, data types, and indexes.",
+        level: "Beginner",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 347,
+        banner: "#ffb454",
+      },
+    ],
   },
   {
     id: "apis",
-    href: "/apis-path",
-    icon: "🔌",
     title: "APIs & Web Services",
-    tagline: "How software talks to other software — the connective tissue of every modern app.",
-    level: "Intermediate",
-    minutes: 80,
-    learn: ["HTTP methods, status codes, and REST", "Authentication: API keys, tokens, OAuth", "Webhooks, rate limits, and reliability"],
-    banner: "#ff8a8a",
+    blurb: "How software talks to other software — the connective tissue of every modern app.",
+    courses: [
+      {
+        id: "apis-core",
+        href: "/apis-path",
+        icon: "🔌",
+        title: "APIs & Web Services",
+        tagline: "HTTP methods, status codes, REST, and authentication basics.",
+        level: "Intermediate",
+        minutes: 80,
+        rating: 4.7,
+        reviews: 968,
+        banner: "#ff8a8a",
+      },
+      {
+        id: "apis-design",
+        href: "/apis-design-path",
+        icon: "🧩",
+        title: "REST API Design Best Practices",
+        tagline: "Resource naming, pagination, versioning, and good error responses.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 415,
+        banner: "#5b9dff",
+      },
+      {
+        id: "apis-auth",
+        href: "/apis-auth-path",
+        icon: "🔐",
+        title: "Authentication & Security for APIs",
+        tagline: "API keys vs tokens, JWTs, CORS, rate limiting, and HTTPS.",
+        level: "Advanced",
+        minutes: 25,
+        rating: 4.8,
+        reviews: 590,
+        banner: "#c792ea",
+      },
+    ],
   },
 ];
 
 const levelColors: Record<string, string> = {
   Beginner: "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-300",
   Intermediate: "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-300",
+  Advanced: "bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-300",
 };
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <span className="text-amber-500 dark:text-amber-400 text-xs">
+      {"★".repeat(Math.round(rating))}
+      {"☆".repeat(5 - Math.round(rating))}
+    </span>
+  );
+}
+
+function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct: number; done: number; total: number } }) {
+  return (
+    <Link
+      to={course.href}
+      className="shrink-0 w-64 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 bg-white dark:bg-slate-900/40 shadow-sm hover:shadow-md transition-all group flex flex-col overflow-hidden"
+    >
+      <div
+        className="relative h-32 flex items-center justify-center overflow-hidden"
+        style={{
+          backgroundImage: `radial-gradient(circle at 25px 25px, rgba(255,255,255,0.25) 2px, transparent 0), linear-gradient(135deg, ${course.banner}, ${course.banner}99)`,
+          backgroundSize: "28px 28px, 100% 100%",
+        }}
+      >
+        <span className="text-6xl drop-shadow-sm select-none">{course.icon}</span>
+        {progress.done > 0 && (
+          <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 font-medium">
+            {progress.done}/{progress.total} done
+          </span>
+        )}
+      </div>
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 leading-snug">
+          {course.title}
+        </h3>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 line-clamp-2">{course.tagline}</p>
+        <div className="flex items-center gap-1.5 mb-2">
+          <Stars rating={course.rating} />
+          <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">{course.rating}</span>
+          <span className="text-xs text-slate-400">({course.reviews.toLocaleString()})</span>
+        </div>
+        <div className="flex items-center gap-2 mt-auto mb-2">
+          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${levelColors[course.level]}`}>{course.level}</span>
+          <span className="text-[10px] text-slate-400">~{course.minutes} min</span>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-medium ml-auto">
+            Free
+          </span>
+        </div>
+        {progress.done > 0 && (
+          <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+            <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function CourseRow({ subject, progressByCourse }: { subject: Subject; progressByCourse: Record<string, { pct: number; done: number; total: number }> }) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  function scrollBy(amount: number) {
+    scrollerRef.current?.scrollBy({ left: amount, behavior: "smooth" });
+  }
+
+  return (
+    <section className="mb-10">
+      <div className="flex items-baseline justify-between mb-1">
+        <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">{subject.title}</h2>
+        <div className="hidden sm:flex gap-1">
+          <button
+            onClick={() => scrollBy(-280)}
+            aria-label="Scroll left"
+            className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+          >
+            ‹
+          </button>
+          <button
+            onClick={() => scrollBy(280)}
+            aria-label="Scroll right"
+            className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+          >
+            ›
+          </button>
+        </div>
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{subject.blurb}</p>
+      <div ref={scrollerRef} className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
+        {subject.courses.map((course) => (
+          <div key={course.id} className="snap-start">
+            <CourseCard course={course} progress={progressByCourse[course.id] ?? { pct: 0, done: 0, total: 0 }} />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   const [query, setQuery] = useState("");
-  const gitProgress = useLessonPathProgress("gitpath", gitUnits);
-  const cliProgress = useLessonPathProgress("clipath", cliUnits);
-  const pythonProgress = useLessonPathProgress("pythonpath", pythonUnits);
-  const apisProgress = useLessonPathProgress("apispath", apisUnits);
-  const sqlProgress = useSqlPathProgress();
 
-  const progressById: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
-    git: { pct: gitProgress.pct, xp: gitProgress.xp, streak: gitProgress.streak, done: gitProgress.completedCount, total: gitProgress.totalLessons },
-    cli: { pct: cliProgress.pct, xp: cliProgress.xp, streak: cliProgress.streak, done: cliProgress.completedCount, total: cliProgress.totalLessons },
-    python: { pct: pythonProgress.pct, xp: pythonProgress.xp, streak: pythonProgress.streak, done: pythonProgress.completedCount, total: pythonProgress.totalLessons },
-    sql: { pct: sqlProgress.pct, xp: sqlProgress.xp, streak: sqlProgress.streak, done: sqlProgress.completedCount, total: sqlProgress.totalLessons },
-    apis: { pct: apisProgress.pct, xp: apisProgress.xp, streak: apisProgress.streak, done: apisProgress.completedCount, total: apisProgress.totalLessons },
+  const gitCoreProgress = useLessonPathProgress("gitpath", gitUnits);
+  const gitBranchingProgress = useLessonPathProgress("gitbranchingpath", gitBranchingUnits);
+  const gitTeamsProgress = useLessonPathProgress("gitteamspath", gitTeamsUnits);
+  const cliCoreProgress = useLessonPathProgress("clipath", cliUnits);
+  const cliScriptingProgress = useLessonPathProgress("cliscriptingpath", cliScriptingUnits);
+  const cliPowerUserProgress = useLessonPathProgress("clipoweruserpath", cliPowerUserUnits);
+  const pythonCoreProgress = useLessonPathProgress("pythonpath", pythonUnits);
+  const pythonDataStructuresProgress = useLessonPathProgress("pythondatastructurespath", pythonDataStructuresUnits);
+  const pythonDebuggingProgress = useLessonPathProgress("pythondebuggingpath", pythonDebuggingUnits);
+  const sqlCoreProgress = useSqlPathProgress();
+  const sqlJoinsProgress = useLessonPathProgress("sqljoinspath", sqlJoinsUnits);
+  const sqlDesignProgress = useLessonPathProgress("sqldesignpath", sqlDesignUnits);
+  const apisCoreProgress = useLessonPathProgress("apispath", apisUnits);
+  const apisDesignProgress = useLessonPathProgress("apisdesignpath", apisDesignUnits);
+  const apisAuthProgress = useLessonPathProgress("apisauthpath", apisAuthUnits);
+
+  const progressByCourse: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
+    "git-core": { pct: gitCoreProgress.pct, xp: gitCoreProgress.xp, streak: gitCoreProgress.streak, done: gitCoreProgress.completedCount, total: gitCoreProgress.totalLessons },
+    "git-branching": { pct: gitBranchingProgress.pct, xp: gitBranchingProgress.xp, streak: gitBranchingProgress.streak, done: gitBranchingProgress.completedCount, total: gitBranchingProgress.totalLessons },
+    "git-teams": { pct: gitTeamsProgress.pct, xp: gitTeamsProgress.xp, streak: gitTeamsProgress.streak, done: gitTeamsProgress.completedCount, total: gitTeamsProgress.totalLessons },
+    "cli-core": { pct: cliCoreProgress.pct, xp: cliCoreProgress.xp, streak: cliCoreProgress.streak, done: cliCoreProgress.completedCount, total: cliCoreProgress.totalLessons },
+    "cli-scripting": { pct: cliScriptingProgress.pct, xp: cliScriptingProgress.xp, streak: cliScriptingProgress.streak, done: cliScriptingProgress.completedCount, total: cliScriptingProgress.totalLessons },
+    "cli-poweruser": { pct: cliPowerUserProgress.pct, xp: cliPowerUserProgress.xp, streak: cliPowerUserProgress.streak, done: cliPowerUserProgress.completedCount, total: cliPowerUserProgress.totalLessons },
+    "python-core": { pct: pythonCoreProgress.pct, xp: pythonCoreProgress.xp, streak: pythonCoreProgress.streak, done: pythonCoreProgress.completedCount, total: pythonCoreProgress.totalLessons },
+    "python-datastructures": { pct: pythonDataStructuresProgress.pct, xp: pythonDataStructuresProgress.xp, streak: pythonDataStructuresProgress.streak, done: pythonDataStructuresProgress.completedCount, total: pythonDataStructuresProgress.totalLessons },
+    "python-debugging": { pct: pythonDebuggingProgress.pct, xp: pythonDebuggingProgress.xp, streak: pythonDebuggingProgress.streak, done: pythonDebuggingProgress.completedCount, total: pythonDebuggingProgress.totalLessons },
+    "sql-core": { pct: sqlCoreProgress.pct, xp: sqlCoreProgress.xp, streak: sqlCoreProgress.streak, done: sqlCoreProgress.completedCount, total: sqlCoreProgress.totalLessons },
+    "sql-joins": { pct: sqlJoinsProgress.pct, xp: sqlJoinsProgress.xp, streak: sqlJoinsProgress.streak, done: sqlJoinsProgress.completedCount, total: sqlJoinsProgress.totalLessons },
+    "sql-design": { pct: sqlDesignProgress.pct, xp: sqlDesignProgress.xp, streak: sqlDesignProgress.streak, done: sqlDesignProgress.completedCount, total: sqlDesignProgress.totalLessons },
+    "apis-core": { pct: apisCoreProgress.pct, xp: apisCoreProgress.xp, streak: apisCoreProgress.streak, done: apisCoreProgress.completedCount, total: apisCoreProgress.totalLessons },
+    "apis-design": { pct: apisDesignProgress.pct, xp: apisDesignProgress.xp, streak: apisDesignProgress.streak, done: apisDesignProgress.completedCount, total: apisDesignProgress.totalLessons },
+    "apis-auth": { pct: apisAuthProgress.pct, xp: apisAuthProgress.xp, streak: apisAuthProgress.streak, done: apisAuthProgress.completedCount, total: apisAuthProgress.totalLessons },
   };
 
-  const totalXp = gitProgress.xp + cliProgress.xp + pythonProgress.xp + sqlProgress.xp + apisProgress.xp;
-  const bestStreak = Math.max(gitProgress.streak, cliProgress.streak, pythonProgress.streak, sqlProgress.streak, apisProgress.streak);
+  const allCourses = subjects.flatMap((s) => s.courses);
+  const totalXp = Object.values(progressByCourse).reduce((sum, p) => sum + p.xp, 0);
+  const bestStreak = Math.max(...Object.values(progressByCourse).map((p) => p.streak));
 
-  const inProgress = paths.find((p) => {
-    const pr = progressById[p.id];
+  const inProgressCourse = allCourses.find((c) => {
+    const pr = progressByCourse[c.id];
     return pr.done > 0 && pr.done < pr.total;
   });
 
-  const filteredPaths = paths.filter((p) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      p.title.toLowerCase().includes(q) ||
-      p.tagline.toLowerCase().includes(q) ||
-      p.learn.some((l) => l.toLowerCase().includes(q))
-    );
-  });
+  const q = query.trim().toLowerCase();
+  const filteredSubjects = q
+    ? subjects
+        .map((s) => ({
+          ...s,
+          courses: s.courses.filter(
+            (c) =>
+              c.title.toLowerCase().includes(q) ||
+              c.tagline.toLowerCase().includes(q) ||
+              s.title.toLowerCase().includes(q)
+          ),
+        }))
+        .filter((s) => s.courses.length > 0)
+    : subjects;
+  const filteredCount = filteredSubjects.reduce((sum, s) => sum + s.courses.length, 0);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto px-4 py-12">
       <section className="mb-12 grid md:grid-cols-[1fr_300px] gap-8 items-center">
         <div>
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-slate-900 dark:text-slate-100">
@@ -150,7 +465,7 @@ export default function Home() {
       </section>
 
       {totalXp > 0 && (
-        <section className="mb-10 grid grid-cols-2 gap-3 sm:gap-5">
+        <section className="mb-10 grid grid-cols-2 gap-3 sm:gap-5 max-w-md">
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-4 text-center shadow-sm">
             <p className="text-2xl sm:text-3xl font-bold text-indigo-500 dark:text-indigo-300">⭐ {totalXp}</p>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">total XP</p>
@@ -162,18 +477,18 @@ export default function Home() {
         </section>
       )}
 
-      {inProgress && (
+      {inProgressCourse && (
         <section className="mb-10">
           <Link
-            to={inProgress.href}
+            to={inProgressCourse.href}
             className="flex items-center justify-between gap-4 rounded-xl border border-indigo-300 dark:border-indigo-500/60 bg-indigo-50 dark:bg-indigo-500/10 p-4 hover:border-indigo-400 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{inProgress.icon}</span>
+              <span className="text-2xl">{inProgressCourse.icon}</span>
               <div>
                 <p className="text-sm text-indigo-700 dark:text-indigo-300 font-medium">Continue where you left off</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  {inProgress.title} — {progressById[inProgress.id].done}/{progressById[inProgress.id].total} lessons done
+                  {inProgressCourse.title} — {progressByCourse[inProgressCourse.id].done}/{progressByCourse[inProgressCourse.id].total} lessons done
                 </p>
               </div>
             </div>
@@ -183,71 +498,17 @@ export default function Home() {
       )}
 
       <section className="mb-3 flex items-center justify-between">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Course catalog</h2>
-        <span className="text-xs text-slate-400">{filteredPaths.length} courses</span>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">What to learn next</h2>
+        <span className="text-xs text-slate-400">{filteredCount} courses</span>
       </section>
 
-      {filteredPaths.length === 0 && (
-        <p className="text-sm text-slate-500 py-8 text-center">No courses match "{query}".</p>
-      )}
+      {filteredCount === 0 && <p className="text-sm text-slate-500 py-8 text-center">No courses match "{query}".</p>}
 
-      <section className="grid sm:grid-cols-2 gap-5">
-        {filteredPaths.map((path) => {
-          const progress = progressById[path.id];
-          return (
-            <Link
-              key={path.id}
-              to={path.href}
-              className="rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 bg-white dark:bg-slate-900/40 shadow-sm hover:shadow-md transition-all group flex flex-col overflow-hidden"
-            >
-              <div
-                className="relative h-32 flex items-center justify-center overflow-hidden"
-                style={{
-                  backgroundImage: `radial-gradient(circle at 25px 25px, rgba(255,255,255,0.25) 2px, transparent 0), linear-gradient(135deg, ${path.banner}, ${path.banner}99)`,
-                  backgroundSize: "28px 28px, 100% 100%",
-                }}
-              >
-                <span className="text-6xl drop-shadow-sm select-none">{path.icon}</span>
-                {progress.done > 0 && (
-                  <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 font-medium">
-                    {progress.done}/{progress.total} done
-                  </span>
-                )}
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <h2 className="font-semibold text-lg mb-1 text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300">
-                  {path.title}
-                </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">{path.tagline}</p>
+      {filteredSubjects.map((subject) => (
+        <CourseRow key={subject.id} subject={subject} progressByCourse={progressByCourse} />
+      ))}
 
-                <ul className="text-xs text-slate-500 dark:text-slate-400 space-y-1 mb-3">
-                  {path.learn.map((item) => (
-                    <li key={item} className="flex items-start gap-1.5">
-                      <span className="text-indigo-500 dark:text-indigo-400 mt-0.5">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center gap-2 mt-auto mb-3">
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${levelColors[path.level]}`}>
-                    {path.level}
-                  </span>
-                  <span className="text-[10px] text-slate-400">~{path.minutes} min</span>
-                </div>
-
-                {progress.done > 0 && (
-                  <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                    <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
-                  </div>
-                )}
-              </div>
-            </Link>
-          );
-        })}
-      </section>
-
-      <section className="mt-16 text-sm text-slate-500 border-t border-slate-200 dark:border-slate-800 pt-6">
+      <section className="mt-6 text-sm text-slate-500 border-t border-slate-200 dark:border-slate-800 pt-6">
         <p>
           More on the way: the dev mindset & soft skills, testing, deployment, and how to read a job description
           without panicking.
