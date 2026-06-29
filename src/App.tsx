@@ -17,6 +17,12 @@ import { sqlJoinsUnits } from "./content/sqlJoinsPath";
 import { sqlDesignUnits } from "./content/sqlDesignPath";
 import { apisDesignUnits } from "./content/apisDesignPath";
 import { apisAuthUnits } from "./content/apisAuthPath";
+import { gitActionsUnits } from "./content/gitActionsPath";
+import { gitInternalsUnits } from "./content/gitInternalsPath";
+import { pythonOopUnits } from "./content/pythonOopPath";
+import { pythonPerformanceUnits } from "./content/pythonPerformancePath";
+import { sqlAdvancedUnits } from "./content/sqlAdvancedPath";
+import { apisAdvancedUnits } from "./content/apisAdvancedPath";
 
 export default function App() {
   return (
@@ -202,6 +208,84 @@ export default function App() {
               icon="⚡"
               units={cliPowerUserUnits}
               storagePrefix="clipoweruserpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/git-actions-path"
+          element={
+            <LessonPathPage
+              title="GitHub Actions & CI Basics"
+              icon="🤖"
+              units={gitActionsUnits}
+              storagePrefix="gitactionspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/git-internals-path"
+          element={
+            <LessonPathPage
+              title="Advanced Git Internals"
+              icon="🧠"
+              units={gitInternalsUnits}
+              storagePrefix="gitinternalspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/python-oop-path"
+          element={
+            <LessonPathPage
+              title="Object-Oriented Python"
+              icon="🧱"
+              units={pythonOopUnits}
+              storagePrefix="pythonooppath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/python-performance-path"
+          element={
+            <LessonPathPage
+              title="Python Performance & Best Practices"
+              icon="🚀"
+              units={pythonPerformanceUnits}
+              storagePrefix="pythonperformancepath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/sql-advanced-path"
+          element={
+            <LessonPathPage
+              title="Advanced SQL"
+              icon="📊"
+              units={sqlAdvancedUnits}
+              storagePrefix="sqladvancedpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/apis-advanced-path"
+          element={
+            <LessonPathPage
+              title="GraphQL, Webhooks & Scaling APIs"
+              icon="🌐"
+              units={apisAdvancedUnits}
+              storagePrefix="apisadvancedpath"
               backHref="/"
               backLabel="Back to all paths"
             />

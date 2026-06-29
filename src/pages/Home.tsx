@@ -16,6 +16,12 @@ import { cliScriptingUnits } from "../content/cliScriptingPath";
 import { cliPowerUserUnits } from "../content/cliPowerUserPath";
 import { sqlJoinsUnits } from "../content/sqlJoinsPath";
 import { sqlDesignUnits } from "../content/sqlDesignPath";
+import { gitActionsUnits } from "../content/gitActionsPath";
+import { gitInternalsUnits } from "../content/gitInternalsPath";
+import { pythonOopUnits } from "../content/pythonOopPath";
+import { pythonPerformanceUnits } from "../content/pythonPerformancePath";
+import { sqlAdvancedUnits } from "../content/sqlAdvancedPath";
+import { apisAdvancedUnits } from "../content/apisAdvancedPath";
 
 interface CourseMeta {
   id: string;
@@ -78,6 +84,30 @@ const subjects: Subject[] = [
         rating: 4.6,
         reviews: 388,
         banner: "#c792ea",
+      },
+      {
+        id: "git-actions",
+        href: "/git-actions-path",
+        icon: "🤖",
+        title: "GitHub Actions & CI Basics",
+        tagline: "Workflow files, triggers, secrets, and caching for automated builds.",
+        level: "Advanced",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 410,
+        banner: "#ff8a8a",
+      },
+      {
+        id: "git-internals",
+        href: "/git-internals-path",
+        icon: "🧠",
+        title: "Advanced Git Internals",
+        tagline: "Objects, the reflog, bisect, interactive rebase, and hooks.",
+        level: "Advanced",
+        minutes: 30,
+        rating: 4.8,
+        reviews: 290,
+        banner: "#ffb454",
       },
     ],
   },
@@ -165,6 +195,30 @@ const subjects: Subject[] = [
         reviews: 433,
         banner: "#5b9dff",
       },
+      {
+        id: "python-oop",
+        href: "/python-oop-path",
+        icon: "🧱",
+        title: "Object-Oriented Python",
+        tagline: "Classes, inheritance, dunder methods, and composition vs inheritance.",
+        level: "Intermediate",
+        minutes: 30,
+        rating: 4.7,
+        reviews: 540,
+        banner: "#3ecf8e",
+      },
+      {
+        id: "python-performance",
+        href: "/python-performance-path",
+        icon: "🚀",
+        title: "Python Performance & Best Practices",
+        tagline: "Generators, decorators, Big O, profiling, and context managers.",
+        level: "Advanced",
+        minutes: 30,
+        rating: 4.8,
+        reviews: 360,
+        banner: "#ff8a8a",
+      },
     ],
   },
   {
@@ -172,6 +226,18 @@ const subjects: Subject[] = [
     title: "SQL & Databases",
     blurb: "Almost every application stores data in a database — SQL is how you talk to it.",
     courses: [
+      {
+        id: "sql-design",
+        href: "/sql-design-path",
+        icon: "📐",
+        title: "Database Design Basics",
+        tagline: "Primary/foreign keys, normalization, data types, and indexes.",
+        level: "Beginner",
+        minutes: 25,
+        rating: 4.6,
+        reviews: 347,
+        banner: "#ffb454",
+      },
       {
         id: "sql-core",
         href: "/sql-path",
@@ -197,15 +263,15 @@ const subjects: Subject[] = [
         banner: "#5b9dff",
       },
       {
-        id: "sql-design",
-        href: "/sql-design-path",
-        icon: "📐",
-        title: "Database Design Basics",
-        tagline: "Primary/foreign keys, normalization, data types, and indexes.",
-        level: "Beginner",
-        minutes: 25,
-        rating: 4.6,
-        reviews: 347,
+        id: "sql-advanced",
+        href: "/sql-advanced-path",
+        icon: "📊",
+        title: "Advanced SQL: Window Functions & Optimization",
+        tagline: "Window functions, CTEs, execution plans, and transactions.",
+        level: "Advanced",
+        minutes: 30,
+        rating: 4.7,
+        reviews: 275,
         banner: "#ffb454",
       },
     ],
@@ -250,6 +316,18 @@ const subjects: Subject[] = [
         rating: 4.8,
         reviews: 590,
         banner: "#c792ea",
+      },
+      {
+        id: "apis-advanced",
+        href: "/apis-advanced-path",
+        icon: "🌐",
+        title: "GraphQL, Webhooks & Scaling APIs",
+        tagline: "REST vs GraphQL, webhooks, caching, load balancing, and gateways.",
+        level: "Advanced",
+        minutes: 30,
+        rating: 4.6,
+        reviews: 230,
+        banner: "#3ecf8e",
       },
     ],
   },
@@ -389,23 +467,35 @@ export default function Home() {
   const apisCoreProgress = useLessonPathProgress("apispath", apisUnits);
   const apisDesignProgress = useLessonPathProgress("apisdesignpath", apisDesignUnits);
   const apisAuthProgress = useLessonPathProgress("apisauthpath", apisAuthUnits);
+  const gitActionsProgress = useLessonPathProgress("gitactionspath", gitActionsUnits);
+  const gitInternalsProgress = useLessonPathProgress("gitinternalspath", gitInternalsUnits);
+  const pythonOopProgress = useLessonPathProgress("pythonooppath", pythonOopUnits);
+  const pythonPerformanceProgress = useLessonPathProgress("pythonperformancepath", pythonPerformanceUnits);
+  const sqlAdvancedProgress = useLessonPathProgress("sqladvancedpath", sqlAdvancedUnits);
+  const apisAdvancedProgress = useLessonPathProgress("apisadvancedpath", apisAdvancedUnits);
 
   const progressByCourse: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
     "git-core": { pct: gitCoreProgress.pct, xp: gitCoreProgress.xp, streak: gitCoreProgress.streak, done: gitCoreProgress.completedCount, total: gitCoreProgress.totalLessons },
     "git-branching": { pct: gitBranchingProgress.pct, xp: gitBranchingProgress.xp, streak: gitBranchingProgress.streak, done: gitBranchingProgress.completedCount, total: gitBranchingProgress.totalLessons },
     "git-teams": { pct: gitTeamsProgress.pct, xp: gitTeamsProgress.xp, streak: gitTeamsProgress.streak, done: gitTeamsProgress.completedCount, total: gitTeamsProgress.totalLessons },
+    "git-actions": { pct: gitActionsProgress.pct, xp: gitActionsProgress.xp, streak: gitActionsProgress.streak, done: gitActionsProgress.completedCount, total: gitActionsProgress.totalLessons },
+    "git-internals": { pct: gitInternalsProgress.pct, xp: gitInternalsProgress.xp, streak: gitInternalsProgress.streak, done: gitInternalsProgress.completedCount, total: gitInternalsProgress.totalLessons },
     "cli-core": { pct: cliCoreProgress.pct, xp: cliCoreProgress.xp, streak: cliCoreProgress.streak, done: cliCoreProgress.completedCount, total: cliCoreProgress.totalLessons },
     "cli-scripting": { pct: cliScriptingProgress.pct, xp: cliScriptingProgress.xp, streak: cliScriptingProgress.streak, done: cliScriptingProgress.completedCount, total: cliScriptingProgress.totalLessons },
     "cli-poweruser": { pct: cliPowerUserProgress.pct, xp: cliPowerUserProgress.xp, streak: cliPowerUserProgress.streak, done: cliPowerUserProgress.completedCount, total: cliPowerUserProgress.totalLessons },
     "python-core": { pct: pythonCoreProgress.pct, xp: pythonCoreProgress.xp, streak: pythonCoreProgress.streak, done: pythonCoreProgress.completedCount, total: pythonCoreProgress.totalLessons },
     "python-datastructures": { pct: pythonDataStructuresProgress.pct, xp: pythonDataStructuresProgress.xp, streak: pythonDataStructuresProgress.streak, done: pythonDataStructuresProgress.completedCount, total: pythonDataStructuresProgress.totalLessons },
     "python-debugging": { pct: pythonDebuggingProgress.pct, xp: pythonDebuggingProgress.xp, streak: pythonDebuggingProgress.streak, done: pythonDebuggingProgress.completedCount, total: pythonDebuggingProgress.totalLessons },
+    "python-oop": { pct: pythonOopProgress.pct, xp: pythonOopProgress.xp, streak: pythonOopProgress.streak, done: pythonOopProgress.completedCount, total: pythonOopProgress.totalLessons },
+    "python-performance": { pct: pythonPerformanceProgress.pct, xp: pythonPerformanceProgress.xp, streak: pythonPerformanceProgress.streak, done: pythonPerformanceProgress.completedCount, total: pythonPerformanceProgress.totalLessons },
     "sql-core": { pct: sqlCoreProgress.pct, xp: sqlCoreProgress.xp, streak: sqlCoreProgress.streak, done: sqlCoreProgress.completedCount, total: sqlCoreProgress.totalLessons },
     "sql-joins": { pct: sqlJoinsProgress.pct, xp: sqlJoinsProgress.xp, streak: sqlJoinsProgress.streak, done: sqlJoinsProgress.completedCount, total: sqlJoinsProgress.totalLessons },
     "sql-design": { pct: sqlDesignProgress.pct, xp: sqlDesignProgress.xp, streak: sqlDesignProgress.streak, done: sqlDesignProgress.completedCount, total: sqlDesignProgress.totalLessons },
+    "sql-advanced": { pct: sqlAdvancedProgress.pct, xp: sqlAdvancedProgress.xp, streak: sqlAdvancedProgress.streak, done: sqlAdvancedProgress.completedCount, total: sqlAdvancedProgress.totalLessons },
     "apis-core": { pct: apisCoreProgress.pct, xp: apisCoreProgress.xp, streak: apisCoreProgress.streak, done: apisCoreProgress.completedCount, total: apisCoreProgress.totalLessons },
     "apis-design": { pct: apisDesignProgress.pct, xp: apisDesignProgress.xp, streak: apisDesignProgress.streak, done: apisDesignProgress.completedCount, total: apisDesignProgress.totalLessons },
     "apis-auth": { pct: apisAuthProgress.pct, xp: apisAuthProgress.xp, streak: apisAuthProgress.streak, done: apisAuthProgress.completedCount, total: apisAuthProgress.totalLessons },
+    "apis-advanced": { pct: apisAdvancedProgress.pct, xp: apisAdvancedProgress.xp, streak: apisAdvancedProgress.streak, done: apisAdvancedProgress.completedCount, total: apisAdvancedProgress.totalLessons },
   };
 
   const allCourses = subjects.flatMap((s) => s.courses);
