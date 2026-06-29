@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLessonPathProgress } from "../useLessonPathProgress";
 import { useSqlPathProgress } from "../useSqlPathProgress";
@@ -291,10 +291,10 @@ function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct:
         )}
       </div>
       <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 leading-snug">
+        <h3 className="font-semibold text-sm mb-1 text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 leading-snug line-clamp-2 min-h-[2.5em]">
           {course.title}
         </h3>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 line-clamp-2">{course.tagline}</p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 line-clamp-2 min-h-[2em]">{course.tagline}</p>
         <div className="flex items-center gap-1.5 mb-2">
           <Stars rating={course.rating} />
           <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">{course.rating}</span>
@@ -307,11 +307,9 @@ function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct:
             Free
           </span>
         </div>
-        {progress.done > 0 && (
-          <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-            <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />
-          </div>
-        )}
+        <div className="h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+          {progress.done > 0 && <div className="h-full bg-indigo-500" style={{ width: `${progress.pct}%` }} />}
+        </div>
       </div>
     </Link>
   );
@@ -319,31 +317,47 @@ function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct:
 
 function CourseRow({ subject, progressByCourse }: { subject: Subject; progressByCourse: Record<string, { pct: number; done: number; total: number }> }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const [canScroll, setCanScroll] = useState(false);
 
   function scrollBy(amount: number) {
     scrollerRef.current?.scrollBy({ left: amount, behavior: "smooth" });
   }
 
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    function checkOverflow() {
+      if (!el) return;
+      setCanScroll(el.scrollWidth > el.clientWidth + 1);
+    }
+    checkOverflow();
+    const observer = new ResizeObserver(checkOverflow);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [subject.courses.length]);
+
   return (
     <section className="mb-10">
       <div className="flex items-baseline justify-between mb-1">
         <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">{subject.title}</h2>
-        <div className="hidden sm:flex gap-1">
-          <button
-            onClick={() => scrollBy(-280)}
-            aria-label="Scroll left"
-            className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
-          >
-            ‹
-          </button>
-          <button
-            onClick={() => scrollBy(280)}
-            aria-label="Scroll right"
-            className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
-          >
-            ›
-          </button>
-        </div>
+        {canScroll && (
+          <div className="hidden sm:flex gap-1">
+            <button
+              onClick={() => scrollBy(-280)}
+              aria-label="Scroll left"
+              className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+            >
+              ‹
+            </button>
+            <button
+              onClick={() => scrollBy(280)}
+              aria-label="Scroll right"
+              className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+            >
+              ›
+            </button>
+          </div>
+        )}
       </div>
       <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{subject.blurb}</p>
       <div ref={scrollerRef} className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
