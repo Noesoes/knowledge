@@ -106,24 +106,46 @@ export default function Home() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
-      <section className="mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-slate-900 dark:text-slate-100">
-          Everything they don't teach you in a coding bootcamp.
-        </h1>
-        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mb-5">
-          DevPath is a free catalog of Duolingo-style courses for people heading into software development —
-          version control, the terminal, a first language, working with data, and how applications talk to each
-          other. Bite-sized lessons, instant feedback, XP, and streaks.
-        </p>
-        <div className="relative max-w-md">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search courses (e.g. Python, SQL, Git)"
-            className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 text-sm text-slate-900 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+      <section className="mb-12 grid md:grid-cols-[1fr_300px] gap-8 items-center">
+        <div>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-slate-900 dark:text-slate-100">
+            Everything they don't teach you in a coding bootcamp.
+          </h1>
+          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mb-5">
+            DevPath is a free catalog of Duolingo-style courses for people heading into software development —
+            version control, the terminal, a first language, working with data, and how applications talk to each
+            other. Bite-sized lessons, instant feedback, XP, and streaks.
+          </p>
+          <div className="relative max-w-md">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">🔍</span>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search courses (e.g. Python, SQL, Git)"
+              className="w-full pl-9 pr-3 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900/60 text-sm text-slate-900 dark:text-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            />
+          </div>
+        </div>
+        <div
+          className="hidden md:flex relative rounded-2xl h-48 overflow-hidden items-center justify-center shadow-sm"
+          style={{ backgroundImage: "linear-gradient(135deg, #5b9dff, #c792ea)" }}
+        >
+          <div
+            className="absolute inset-0 opacity-30"
+            style={{
+              backgroundImage: "radial-gradient(circle at 20px 20px, rgba(255,255,255,0.5) 2px, transparent 0)",
+              backgroundSize: "30px 30px",
+            }}
           />
+          <div className="relative grid grid-cols-3 gap-3 text-4xl">
+            <span>🌱</span>
+            <span>🐍</span>
+            <span>🗄️</span>
+            <span>⌨️</span>
+            <span>🔌</span>
+            <span>⭐</span>
+          </div>
         </div>
       </section>
 
@@ -178,19 +200,21 @@ export default function Home() {
               to={path.href}
               className="rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-500 bg-white dark:bg-slate-900/40 shadow-sm hover:shadow-md transition-all group flex flex-col overflow-hidden"
             >
-              <div className="h-2" style={{ backgroundColor: path.banner }} />
-              <div className="p-5 flex flex-col flex-1">
-                <div className="flex items-start justify-between mb-2">
-                  <span
-                    className="text-2xl w-11 h-11 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${path.banner}1a` }}
-                  >
-                    {path.icon}
+              <div
+                className="relative h-32 flex items-center justify-center overflow-hidden"
+                style={{
+                  backgroundImage: `radial-gradient(circle at 25px 25px, rgba(255,255,255,0.25) 2px, transparent 0), linear-gradient(135deg, ${path.banner}, ${path.banner}99)`,
+                  backgroundSize: "28px 28px, 100% 100%",
+                }}
+              >
+                <span className="text-6xl drop-shadow-sm select-none">{path.icon}</span>
+                {progress.done > 0 && (
+                  <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 font-medium">
+                    {progress.done}/{progress.total} done
                   </span>
-                  {progress.done > 0 && (
-                    <span className="text-xs text-slate-500 dark:text-slate-400">{progress.done}/{progress.total} done</span>
-                  )}
-                </div>
+                )}
+              </div>
+              <div className="p-5 flex flex-col flex-1">
                 <h2 className="font-semibold text-lg mb-1 text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-300">
                   {path.title}
                 </h2>
