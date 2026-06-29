@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./pages/Home";
 import SqlCoursePage from "./pages/SqlCoursePage";
+import PythonTerminal from "./pages/PythonTerminal";
 import LessonPathPage from "./pages/LessonPathPage";
 import { pythonUnits } from "./content/pythonPath";
 import { apisUnits } from "./content/apisPath";
@@ -23,6 +24,8 @@ import { pythonOopUnits } from "./content/pythonOopPath";
 import { pythonPerformanceUnits } from "./content/pythonPerformancePath";
 import { sqlAdvancedUnits } from "./content/sqlAdvancedPath";
 import { apisAdvancedUnits } from "./content/apisAdvancedPath";
+import { claudeBasicsUnits } from "./content/claudeBasicsPath";
+import { cursorBasicsUnits } from "./content/cursorBasicsPath";
 
 export default function App() {
   return (
@@ -31,6 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sql-path" element={<SqlCoursePage />} />
+        <Route path="/python-terminal" element={<PythonTerminal />} />
         <Route
           path="/git-path"
           element={
@@ -286,6 +290,32 @@ export default function App() {
               icon="🌐"
               units={apisAdvancedUnits}
               storagePrefix="apisadvancedpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/claude-basics-path"
+          element={
+            <LessonPathPage
+              title="Claude Basics"
+              icon="✨"
+              units={claudeBasicsUnits}
+              storagePrefix="claudebasicspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/cursor-basics-path"
+          element={
+            <LessonPathPage
+              title="Cursor Basics"
+              icon="🖱️"
+              units={cursorBasicsUnits}
+              storagePrefix="cursorbasicspath"
               backHref="/"
               backLabel="Back to all paths"
             />

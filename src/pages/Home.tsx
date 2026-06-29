@@ -22,6 +22,8 @@ import { pythonOopUnits } from "../content/pythonOopPath";
 import { pythonPerformanceUnits } from "../content/pythonPerformancePath";
 import { sqlAdvancedUnits } from "../content/sqlAdvancedPath";
 import { apisAdvancedUnits } from "../content/apisAdvancedPath";
+import { claudeBasicsUnits } from "../content/claudeBasicsPath";
+import { cursorBasicsUnits } from "../content/cursorBasicsPath";
 
 interface CourseMeta {
   id: string;
@@ -331,6 +333,37 @@ const subjects: Subject[] = [
       },
     ],
   },
+  {
+    id: "ai-tools",
+    title: "AI Coding Tools",
+    blurb: "Working with AI assistants and AI-native editors is now a core dev skill.",
+    courses: [
+      {
+        id: "claude-basics",
+        href: "/claude-basics-path",
+        icon: "✨",
+        title: "Claude Basics",
+        tagline: "Prompting, system prompts, context windows, and verifying AI output.",
+        level: "Beginner",
+        minutes: 20,
+        rating: 4.7,
+        reviews: 312,
+        banner: "#5b9dff",
+      },
+      {
+        id: "cursor-basics",
+        href: "/cursor-basics-path",
+        icon: "🖱️",
+        title: "Cursor Basics",
+        tagline: "Inline AI edits, codebase-aware chat, and reviewing AI suggestions.",
+        level: "Beginner",
+        minutes: 20,
+        rating: 4.6,
+        reviews: 198,
+        banner: "#c792ea",
+      },
+    ],
+  },
 ];
 
 const levelColors: Record<string, string> = {
@@ -396,6 +429,8 @@ function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct:
 function CourseRow({ subject, progressByCourse }: { subject: Subject; progressByCourse: Record<string, { pct: number; done: number; total: number }> }) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [canScroll, setCanScroll] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
 
   function scrollBy(amount: number) {
     scrollerRef.current?.scrollBy({ left: amount, behavior: "smooth" });
@@ -404,46 +439,60 @@ function CourseRow({ subject, progressByCourse }: { subject: Subject; progressBy
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    function checkOverflow() {
+    function checkScrollState() {
       if (!el) return;
       setCanScroll(el.scrollWidth > el.clientWidth + 1);
+      setAtStart(el.scrollLeft <= 20);
+      setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 20);
     }
-    checkOverflow();
-    const observer = new ResizeObserver(checkOverflow);
+    checkScrollState();
+    const observer = new ResizeObserver(checkScrollState);
     observer.observe(el);
-    return () => observer.disconnect();
+    el.addEventListener("scroll", checkScrollState, { passive: true });
+    return () => {
+      observer.disconnect();
+      el.removeEventListener("scroll", checkScrollState);
+    };
   }, [subject.courses.length]);
 
   return (
     <section className="mb-10">
-      <div className="flex items-baseline justify-between mb-1">
+      <div className="mb-1">
         <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">{subject.title}</h2>
-        {canScroll && (
-          <div className="hidden sm:flex gap-1">
+      </div>
+      <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{subject.blurb}</p>
+      <div className="relative">
+        {canScroll && !atStart && (
+          <>
+            <div className="hidden sm:block pointer-events-none absolute left-0 top-0 bottom-2 w-12 z-10 bg-gradient-to-r from-slate-50 dark:from-[#0b0f17] to-transparent" />
             <button
               onClick={() => scrollBy(-280)}
               aria-label="Scroll left"
-              className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+              className="hidden sm:flex absolute left-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md items-center justify-center text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-300 hover:scale-105 transition-transform"
             >
               ‹
             </button>
+          </>
+        )}
+        {canScroll && !atEnd && (
+          <>
+            <div className="hidden sm:block pointer-events-none absolute right-0 top-0 bottom-2 w-12 z-10 bg-gradient-to-l from-slate-50 dark:from-[#0b0f17] to-transparent" />
             <button
               onClick={() => scrollBy(280)}
               aria-label="Scroll right"
-              className="w-7 h-7 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs text-slate-500 dark:text-slate-400 hover:border-indigo-400"
+              className="hidden sm:flex absolute right-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md items-center justify-center text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-300 hover:scale-105 transition-transform"
             >
               ›
             </button>
-          </div>
+          </>
         )}
-      </div>
-      <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{subject.blurb}</p>
-      <div ref={scrollerRef} className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
-        {subject.courses.map((course) => (
-          <div key={course.id} className="snap-start">
-            <CourseCard course={course} progress={progressByCourse[course.id] ?? { pct: 0, done: 0, total: 0 }} />
-          </div>
-        ))}
+        <div ref={scrollerRef} className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
+          {subject.courses.map((course) => (
+            <div key={course.id} className="snap-start">
+              <CourseCard course={course} progress={progressByCourse[course.id] ?? { pct: 0, done: 0, total: 0 }} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -473,6 +522,8 @@ export default function Home() {
   const pythonPerformanceProgress = useLessonPathProgress("pythonperformancepath", pythonPerformanceUnits);
   const sqlAdvancedProgress = useLessonPathProgress("sqladvancedpath", sqlAdvancedUnits);
   const apisAdvancedProgress = useLessonPathProgress("apisadvancedpath", apisAdvancedUnits);
+  const claudeBasicsProgress = useLessonPathProgress("claudebasicspath", claudeBasicsUnits);
+  const cursorBasicsProgress = useLessonPathProgress("cursorbasicspath", cursorBasicsUnits);
 
   const progressByCourse: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
     "git-core": { pct: gitCoreProgress.pct, xp: gitCoreProgress.xp, streak: gitCoreProgress.streak, done: gitCoreProgress.completedCount, total: gitCoreProgress.totalLessons },
@@ -496,6 +547,8 @@ export default function Home() {
     "apis-design": { pct: apisDesignProgress.pct, xp: apisDesignProgress.xp, streak: apisDesignProgress.streak, done: apisDesignProgress.completedCount, total: apisDesignProgress.totalLessons },
     "apis-auth": { pct: apisAuthProgress.pct, xp: apisAuthProgress.xp, streak: apisAuthProgress.streak, done: apisAuthProgress.completedCount, total: apisAuthProgress.totalLessons },
     "apis-advanced": { pct: apisAdvancedProgress.pct, xp: apisAdvancedProgress.xp, streak: apisAdvancedProgress.streak, done: apisAdvancedProgress.completedCount, total: apisAdvancedProgress.totalLessons },
+    "claude-basics": { pct: claudeBasicsProgress.pct, xp: claudeBasicsProgress.xp, streak: claudeBasicsProgress.streak, done: claudeBasicsProgress.completedCount, total: claudeBasicsProgress.totalLessons },
+    "cursor-basics": { pct: cursorBasicsProgress.pct, xp: cursorBasicsProgress.xp, streak: cursorBasicsProgress.streak, done: cursorBasicsProgress.completedCount, total: cursorBasicsProgress.totalLessons },
   };
 
   const allCourses = subjects.flatMap((s) => s.courses);
@@ -609,7 +662,26 @@ export default function Home() {
       {filteredCount === 0 && <p className="text-sm text-slate-500 py-8 text-center">No courses match "{query}".</p>}
 
       {filteredSubjects.map((subject) => (
-        <CourseRow key={subject.id} subject={subject} progressByCourse={progressByCourse} />
+        <div key={subject.id}>
+          <CourseRow subject={subject} progressByCourse={progressByCourse} />
+          {subject.id === "python" && (
+            <Link
+              to="/python-terminal"
+              className="-mt-6 mb-10 flex items-center justify-between gap-4 rounded-xl border border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10 p-4 hover:border-emerald-400 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🧪</span>
+                <div>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300 font-medium">Python Practice Terminal</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Run real Python in your browser — no setup, no install. Great for trying out what you just learned.
+                  </p>
+                </div>
+              </div>
+              <span className="text-sm text-emerald-700 dark:text-emerald-300 shrink-0">Open terminal →</span>
+            </Link>
+          )}
+        </div>
       ))}
 
       <section className="mt-6 text-sm text-slate-500 border-t border-slate-200 dark:border-slate-800 pt-6">
