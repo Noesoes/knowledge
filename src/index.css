@@ -80,6 +80,15 @@ html.dark .prose-lesson strong {
   color: #fff;
 }
 
+.carousel-scroller {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.carousel-scroller::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes confetti-fall {
   0% {
     transform: translateY(0) rotate(0deg);

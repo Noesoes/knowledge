@@ -539,11 +539,11 @@ function CourseRow({ subject, progressByCourse }: { subject: Subject; progressBy
       <div className="relative">
         {canScroll && !atStart && (
           <>
-            <div className="hidden sm:block pointer-events-none absolute left-0 top-0 bottom-2 w-12 z-10 bg-gradient-to-r from-slate-50 dark:from-[#0b0f17] to-transparent" />
+            <div className="hidden sm:block pointer-events-none absolute left-0 top-0 bottom-2 w-20 z-10 bg-gradient-to-r from-slate-50 dark:from-[#0b0f17] to-transparent" />
             <button
-              onClick={() => scrollBy(-280)}
+              onClick={() => scrollBy(-300)}
               aria-label="Scroll left"
-              className="hidden sm:flex absolute left-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md items-center justify-center text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-300 hover:scale-105 transition-transform"
+              className="hidden sm:flex absolute left-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-lg items-center justify-center text-lg font-light text-slate-500 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30 hover:scale-110 transition-all duration-150"
             >
               ‹
             </button>
@@ -551,17 +551,17 @@ function CourseRow({ subject, progressByCourse }: { subject: Subject; progressBy
         )}
         {canScroll && !atEnd && (
           <>
-            <div className="hidden sm:block pointer-events-none absolute right-0 top-0 bottom-2 w-12 z-10 bg-gradient-to-l from-slate-50 dark:from-[#0b0f17] to-transparent" />
+            <div className="hidden sm:block pointer-events-none absolute right-0 top-0 bottom-2 w-20 z-10 bg-gradient-to-l from-slate-50 dark:from-[#0b0f17] to-transparent" />
             <button
-              onClick={() => scrollBy(280)}
+              onClick={() => scrollBy(300)}
               aria-label="Scroll right"
-              className="hidden sm:flex absolute right-1 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-md items-center justify-center text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-300 hover:scale-105 transition-transform"
+              className="hidden sm:flex absolute right-2 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 shadow-lg items-center justify-center text-lg font-light text-slate-500 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-indigo-100 dark:hover:shadow-indigo-900/30 hover:scale-110 transition-all duration-150"
             >
               ›
             </button>
           </>
         )}
-        <div ref={scrollerRef} className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
+        <div ref={scrollerRef} className="carousel-scroller flex gap-4 overflow-x-auto pb-2 -mx-4 px-4 scroll-smooth snap-x">
           {subject.courses.map((course) => (
             <div key={course.id} className="snap-start">
               <CourseCard course={course} progress={progressByCourse[course.id] ?? { pct: 0, done: 0, total: 0 }} />
