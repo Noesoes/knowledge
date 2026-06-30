@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { PathUnit } from "../lessonPathTypes";
 import { useLessonPathProgress } from "../useLessonPathProgress";
@@ -65,6 +65,24 @@ export default function LessonPathPage({
     setSelected(null);
     setShowSidebar(false);
   }
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      const num = parseInt(e.key);
+      if (num >= 1 && num <= lesson.options.length) {
+        choose(num - 1);
+      } else if (e.key === "Enter" && selected !== null) {
+        if (selected === lesson.correctIndex && nextLesson) {
+          selectLesson(nextLesson.id);
+        } else if (selected !== lesson.correctIndex) {
+          retry();
+        }
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
   function choose(i: number) {
     if (selected !== null) return;

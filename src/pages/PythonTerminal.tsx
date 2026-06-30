@@ -15,13 +15,72 @@ interface PyodideInterface {
 
 const PYODIDE_BASE = "https://cdn.jsdelivr.net/pyodide/v0.26.0/full/";
 
-const DEFAULT_CODE = `# Try writing real Python here, then hit Run.
+const SNIPPETS: { label: string; code: string }[] = [
+  {
+    label: "Hello World",
+    code: `# A simple greeting function
 def greet(name):
     return f"Hello, {name}!"
 
 for n in ["world", "Python"]:
     print(greet(n))
-`;
+`,
+  },
+  {
+    label: "FizzBuzz",
+    code: `# Classic FizzBuzz up to 20
+for i in range(1, 21):
+    if i % 15 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+`,
+  },
+  {
+    label: "Fibonacci",
+    code: `# First 10 Fibonacci numbers
+def fib(n):
+    a, b = 0, 1
+    result = []
+    for _ in range(n):
+        result.append(a)
+        a, b = b, a + b
+    return result
+
+print(fib(10))
+`,
+  },
+  {
+    label: "List comprehension",
+    code: `# Squares of even numbers up to 20
+evens_squared = [x**2 for x in range(1, 21) if x % 2 == 0]
+print(evens_squared)
+
+# Words longer than 4 chars
+words = ["cat", "elephant", "dog", "python", "fox"]
+long_words = [w.upper() for w in words if len(w) > 4]
+print(long_words)
+`,
+  },
+  {
+    label: "Dict & Counter",
+    code: `# Count word frequencies
+text = "the quick brown fox jumps over the lazy dog the fox"
+counts = {}
+for word in text.split():
+    counts[word] = counts.get(word, 0) + 1
+
+for word, count in sorted(counts.items(), key=lambda x: -x[1]):
+    print(f"{word}: {count}")
+`,
+  },
+];
+
+const DEFAULT_CODE = SNIPPETS[0].code;
 
 type Status = "loading" | "ready" | "running" | "error";
 
@@ -89,8 +148,17 @@ export default function PythonTerminal() {
       </p>
 
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-        <div className="flex items-center justify-between px-4 py-2 bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800">
-          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">script.py</span>
+        <div className="flex items-center justify-between px-4 py-2 bg-slate-100 dark:bg-slate-900/60 border-b border-slate-200 dark:border-slate-800 gap-3">
+          <select
+            onChange={(e) => { if (e.target.value) setCode(SNIPPETS[+e.target.value].code); e.target.value = ""; }}
+            defaultValue=""
+            className="text-xs px-2 py-1 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 focus:outline-none"
+          >
+            <option value="" disabled>Starter snippets…</option>
+            {SNIPPETS.map((s, i) => (
+              <option key={s.label} value={i}>{s.label}</option>
+            ))}
+          </select>
           <button
             onClick={run}
             disabled={status === "loading" || status === "running"}

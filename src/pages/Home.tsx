@@ -24,6 +24,10 @@ import { sqlAdvancedUnits } from "../content/sqlAdvancedPath";
 import { apisAdvancedUnits } from "../content/apisAdvancedPath";
 import { claudeBasicsUnits } from "../content/claudeBasicsPath";
 import { cursorBasicsUnits } from "../content/cursorBasicsPath";
+import { jsBasicsUnits } from "../content/jsBasicsPath";
+import { jsArraysUnits } from "../content/jsArraysPath";
+import { jsAsyncUnits } from "../content/jsAsyncPath";
+import { typescriptBasicsUnits } from "../content/typescriptBasicsPath";
 
 interface CourseMeta {
   id: string;
@@ -36,6 +40,7 @@ interface CourseMeta {
   rating: number;
   reviews: number;
   banner: string;
+  isNew?: boolean;
 }
 
 interface Subject {
@@ -91,6 +96,7 @@ const subjects: Subject[] = [
         id: "git-actions",
         href: "/git-actions-path",
         icon: "🤖",
+        isNew: true,
         title: "GitHub Actions & CI Basics",
         tagline: "Workflow files, triggers, secrets, and caching for automated builds.",
         level: "Advanced",
@@ -103,6 +109,7 @@ const subjects: Subject[] = [
         id: "git-internals",
         href: "/git-internals-path",
         icon: "🧠",
+        isNew: true,
         title: "Advanced Git Internals",
         tagline: "Objects, the reflog, bisect, interactive rebase, and hooks.",
         level: "Advanced",
@@ -201,6 +208,7 @@ const subjects: Subject[] = [
         id: "python-oop",
         href: "/python-oop-path",
         icon: "🧱",
+        isNew: true,
         title: "Object-Oriented Python",
         tagline: "Classes, inheritance, dunder methods, and composition vs inheritance.",
         level: "Intermediate",
@@ -213,6 +221,7 @@ const subjects: Subject[] = [
         id: "python-performance",
         href: "/python-performance-path",
         icon: "🚀",
+        isNew: true,
         title: "Python Performance & Best Practices",
         tagline: "Generators, decorators, Big O, profiling, and context managers.",
         level: "Advanced",
@@ -334,6 +343,65 @@ const subjects: Subject[] = [
     ],
   },
   {
+    id: "javascript",
+    title: "JavaScript",
+    blurb: "The language of the web — from basic scripting to async APIs and typed codebases.",
+    courses: [
+      {
+        id: "js-core",
+        href: "/js-path",
+        icon: "💛",
+        title: "JavaScript Fundamentals",
+        tagline: "Variables, functions, objects, arrays, and the quirks of JS equality.",
+        level: "Beginner",
+        minutes: 30,
+        rating: 4.8,
+        reviews: 1124,
+        banner: "#ffb454",
+        isNew: true,
+      },
+      {
+        id: "js-arrays",
+        href: "/js-arrays-path",
+        icon: "🔄",
+        title: "Arrays & Modern JS Syntax",
+        tagline: "map/filter/reduce, destructuring, spread, optional chaining, Set, and Map.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 638,
+        banner: "#3ecf8e",
+        isNew: true,
+      },
+      {
+        id: "js-async",
+        href: "/js-async-path",
+        icon: "⏱️",
+        title: "Async JavaScript",
+        tagline: "The event loop, Promises, async/await, fetch, and Promise.all.",
+        level: "Intermediate",
+        minutes: 25,
+        rating: 4.8,
+        reviews: 720,
+        banner: "#c792ea",
+        isNew: true,
+      },
+      {
+        id: "typescript-basics",
+        href: "/typescript-basics-path",
+        icon: "🔷",
+        title: "TypeScript Basics",
+        tagline: "Why TypeScript, annotations, interfaces, unions, and generics.",
+        level: "Advanced",
+        minutes: 25,
+        rating: 4.7,
+        reviews: 445,
+        banner: "#5b9dff",
+        isNew: true,
+      },
+    ],
+  },
+  {
     id: "ai-tools",
     title: "AI Coding Tools",
     blurb: "Working with AI assistants and AI-native editors is now a core dev skill.",
@@ -342,6 +410,7 @@ const subjects: Subject[] = [
         id: "claude-basics",
         href: "/claude-basics-path",
         icon: "✨",
+        isNew: true,
         title: "Claude Basics",
         tagline: "Prompting, system prompts, context windows, and verifying AI output.",
         level: "Beginner",
@@ -354,6 +423,7 @@ const subjects: Subject[] = [
         id: "cursor-basics",
         href: "/cursor-basics-path",
         icon: "🖱️",
+        isNew: true,
         title: "Cursor Basics",
         tagline: "Inline AI edits, codebase-aware chat, and reviewing AI suggestions.",
         level: "Beginner",
@@ -395,6 +465,11 @@ function CourseCard({ course, progress }: { course: CourseMeta; progress: { pct:
         }}
       >
         <span className="text-6xl drop-shadow-sm select-none">{course.icon}</span>
+        {course.isNew && progress.done === 0 && (
+          <span className="absolute top-2 left-2 text-[10px] px-2 py-0.5 rounded-full bg-emerald-500 text-white font-semibold tracking-wide">
+            NEW
+          </span>
+        )}
         {progress.done > 0 && (
           <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full bg-white/90 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 font-medium">
             {progress.done}/{progress.total} done
@@ -524,6 +599,10 @@ export default function Home() {
   const apisAdvancedProgress = useLessonPathProgress("apisadvancedpath", apisAdvancedUnits);
   const claudeBasicsProgress = useLessonPathProgress("claudebasicspath", claudeBasicsUnits);
   const cursorBasicsProgress = useLessonPathProgress("cursorbasicspath", cursorBasicsUnits);
+  const jsBasicsProgress = useLessonPathProgress("jspath", jsBasicsUnits);
+  const jsArraysProgress = useLessonPathProgress("jsarrayspath", jsArraysUnits);
+  const jsAsyncProgress = useLessonPathProgress("jsasyncpath", jsAsyncUnits);
+  const tsBasicsProgress = useLessonPathProgress("typescriptbasicspath", typescriptBasicsUnits);
 
   const progressByCourse: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
     "git-core": { pct: gitCoreProgress.pct, xp: gitCoreProgress.xp, streak: gitCoreProgress.streak, done: gitCoreProgress.completedCount, total: gitCoreProgress.totalLessons },
@@ -549,6 +628,10 @@ export default function Home() {
     "apis-advanced": { pct: apisAdvancedProgress.pct, xp: apisAdvancedProgress.xp, streak: apisAdvancedProgress.streak, done: apisAdvancedProgress.completedCount, total: apisAdvancedProgress.totalLessons },
     "claude-basics": { pct: claudeBasicsProgress.pct, xp: claudeBasicsProgress.xp, streak: claudeBasicsProgress.streak, done: claudeBasicsProgress.completedCount, total: claudeBasicsProgress.totalLessons },
     "cursor-basics": { pct: cursorBasicsProgress.pct, xp: cursorBasicsProgress.xp, streak: cursorBasicsProgress.streak, done: cursorBasicsProgress.completedCount, total: cursorBasicsProgress.totalLessons },
+    "js-core": { pct: jsBasicsProgress.pct, xp: jsBasicsProgress.xp, streak: jsBasicsProgress.streak, done: jsBasicsProgress.completedCount, total: jsBasicsProgress.totalLessons },
+    "js-arrays": { pct: jsArraysProgress.pct, xp: jsArraysProgress.xp, streak: jsArraysProgress.streak, done: jsArraysProgress.completedCount, total: jsArraysProgress.totalLessons },
+    "js-async": { pct: jsAsyncProgress.pct, xp: jsAsyncProgress.xp, streak: jsAsyncProgress.streak, done: jsAsyncProgress.completedCount, total: jsAsyncProgress.totalLessons },
+    "typescript-basics": { pct: tsBasicsProgress.pct, xp: tsBasicsProgress.xp, streak: tsBasicsProgress.streak, done: tsBasicsProgress.completedCount, total: tsBasicsProgress.totalLessons },
   };
 
   const allCourses = subjects.flatMap((s) => s.courses);
@@ -622,7 +705,7 @@ export default function Home() {
       </section>
 
       {totalXp > 0 && (
-        <section className="mb-10 grid grid-cols-2 gap-3 sm:gap-5 max-w-md">
+        <section className="mb-10 grid grid-cols-2 gap-3 sm:gap-5 max-w-md" id="stats">
           <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/40 p-4 text-center shadow-sm">
             <p className="text-2xl sm:text-3xl font-bold text-indigo-500 dark:text-indigo-300">⭐ {totalXp}</p>
             <p className="text-xs sm:text-sm text-slate-500 mt-1">total XP</p>
@@ -632,6 +715,13 @@ export default function Home() {
             <p className="text-xs sm:text-sm text-slate-500 mt-1">best day streak</p>
           </div>
         </section>
+      )}
+      {totalXp > 0 && (
+        <div className="mb-8 -mt-4">
+          <Link to="/progress" className="text-sm text-indigo-600 dark:text-indigo-300 hover:underline">
+            View full progress breakdown →
+          </Link>
+        </div>
       )}
 
       {inProgressCourse && (

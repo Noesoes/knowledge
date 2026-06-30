@@ -26,6 +26,11 @@ import { sqlAdvancedUnits } from "./content/sqlAdvancedPath";
 import { apisAdvancedUnits } from "./content/apisAdvancedPath";
 import { claudeBasicsUnits } from "./content/claudeBasicsPath";
 import { cursorBasicsUnits } from "./content/cursorBasicsPath";
+import { jsBasicsUnits } from "./content/jsBasicsPath";
+import { jsArraysUnits } from "./content/jsArraysPath";
+import { jsAsyncUnits } from "./content/jsAsyncPath";
+import { typescriptBasicsUnits } from "./content/typescriptBasicsPath";
+import ProgressPage from "./pages/ProgressPage";
 
 export default function App() {
   return (
@@ -35,6 +40,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sql-path" element={<SqlCoursePage />} />
         <Route path="/python-terminal" element={<PythonTerminal />} />
+        <Route path="/progress" element={<ProgressPage />} />
         <Route
           path="/git-path"
           element={
@@ -303,6 +309,58 @@ export default function App() {
               icon="✨"
               units={claudeBasicsUnits}
               storagePrefix="claudebasicspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/js-path"
+          element={
+            <LessonPathPage
+              title="JavaScript Fundamentals"
+              icon="💛"
+              units={jsBasicsUnits}
+              storagePrefix="jspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/js-arrays-path"
+          element={
+            <LessonPathPage
+              title="JavaScript Arrays & Modern Syntax"
+              icon="🔄"
+              units={jsArraysUnits}
+              storagePrefix="jsarrayspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/js-async-path"
+          element={
+            <LessonPathPage
+              title="Async JavaScript"
+              icon="⚡"
+              units={jsAsyncUnits}
+              storagePrefix="jsasyncpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/typescript-basics-path"
+          element={
+            <LessonPathPage
+              title="TypeScript Basics"
+              icon="🔷"
+              units={typescriptBasicsUnits}
+              storagePrefix="typescriptbasicspath"
               backHref="/"
               backLabel="Back to all paths"
             />
