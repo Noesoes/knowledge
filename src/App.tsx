@@ -30,6 +30,7 @@ import { jsBasicsUnits } from "./content/jsBasicsPath";
 import { jsArraysUnits } from "./content/jsArraysPath";
 import { jsAsyncUnits } from "./content/jsAsyncPath";
 import { typescriptBasicsUnits } from "./content/typescriptBasicsPath";
+import VectorDbDemo from "./pages/VectorDbDemo";
 import { vectorDbUnits } from "./content/vectorDbPath";
 import { ragFundamentalsUnits } from "./content/ragFundamentalsPath";
 import { ragAdvancedUnits } from "./content/ragAdvancedPath";
@@ -43,6 +44,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/sql-path" element={<SqlCoursePage />} />
         <Route path="/python-terminal" element={<PythonTerminal />} />
+        <Route path="/vector-db-demo" element={<VectorDbDemo />} />
         <Route path="/progress" element={<ProgressPage />} />
         <Route
           path="/git-path"

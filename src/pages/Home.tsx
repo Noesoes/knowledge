@@ -809,6 +809,23 @@ export default function Home() {
       {filteredSubjects.map((subject) => (
         <div key={subject.id}>
           <CourseRow subject={subject} progressByCourse={progressByCourse} />
+          {subject.id === "vector-rag" && (
+            <Link
+              to="/vector-db-demo"
+              className="-mt-6 mb-10 flex items-center justify-between gap-4 rounded-xl border border-indigo-300 dark:border-indigo-500/40 bg-indigo-50 dark:bg-indigo-500/10 p-4 hover:border-indigo-400 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">🧲</span>
+                <div>
+                  <p className="text-sm text-indigo-700 dark:text-indigo-300 font-medium">Live Vector Database Demo</p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    See a real vector database in your browser — 16 documents, actual embeddings, live nearest-neighbor search.
+                  </p>
+                </div>
+              </div>
+              <span className="text-sm text-indigo-700 dark:text-indigo-300 shrink-0">Open demo →</span>
+            </Link>
+          )}
           {subject.id === "python" && (
             <Link
               to="/python-terminal"
