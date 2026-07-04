@@ -27,6 +27,9 @@ import { jsAsyncUnits } from "../content/jsAsyncPath";
 import { typescriptBasicsUnits } from "../content/typescriptBasicsPath";
 import { claudeBasicsUnits } from "../content/claudeBasicsPath";
 import { cursorBasicsUnits } from "../content/cursorBasicsPath";
+import { vectorDbUnits } from "../content/vectorDbPath";
+import { ragFundamentalsUnits } from "../content/ragFundamentalsPath";
+import { ragAdvancedUnits } from "../content/ragAdvancedPath";
 
 const levelColors: Record<string, string> = {
   Beginner: "bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-300",
@@ -69,6 +72,9 @@ const COURSES: CourseDef[] = [
   { id: "typescript-basics", icon: "🔷", title: "TypeScript Basics",                   subject: "JavaScript",             level: "Advanced",     href: "/typescript-basics-path",  banner: "#5b9dff" },
   { id: "claude-basics",     icon: "✨", title: "Claude Basics",                        subject: "AI Coding Tools",        level: "Beginner",     href: "/claude-basics-path",      banner: "#5b9dff" },
   { id: "cursor-basics",     icon: "🖱️", title: "Cursor Basics",                      subject: "AI Coding Tools",        level: "Beginner",     href: "/cursor-basics-path",      banner: "#c792ea" },
+  { id: "vector-db",         icon: "🧲", title: "Vector Databases",                    subject: "Vector DB & RAG",        level: "Beginner",     href: "/vector-db-path",          banner: "#5b9dff" },
+  { id: "rag-fundamentals",  icon: "🔍", title: "RAG Fundamentals",                    subject: "Vector DB & RAG",        level: "Intermediate", href: "/rag-fundamentals-path",   banner: "#3ecf8e" },
+  { id: "rag-advanced",      icon: "⚙️", title: "Advanced RAG & Production Patterns", subject: "Vector DB & RAG",        level: "Advanced",     href: "/rag-advanced-path",       banner: "#c792ea" },
 ];
 
 function ProgressBar({ pct, done, total }: { pct: number; done: number; total: number }) {
@@ -117,6 +123,9 @@ export default function ProgressPage() {
   const tsBasics = useLessonPathProgress("typescriptbasicspath", typescriptBasicsUnits);
   const claudeBasics = useLessonPathProgress("claudebasicspath", claudeBasicsUnits);
   const cursorBasics = useLessonPathProgress("cursorbasicspath", cursorBasicsUnits);
+  const vectorDb = useLessonPathProgress("vectordbpath", vectorDbUnits);
+  const ragFundamentals = useLessonPathProgress("ragfundamentalspath", ragFundamentalsUnits);
+  const ragAdvanced = useLessonPathProgress("ragadvancedpath", ragAdvancedUnits);
 
   const progressMap: Record<string, ReturnType<typeof useLessonPathProgress>> = {
     "git-core": gitCore, "git-branching": gitBranching, "git-teams": gitTeams,
@@ -128,6 +137,7 @@ export default function ProgressPage() {
     "apis-core": apisCore, "apis-design": apisDesign, "apis-auth": apisAuth, "apis-advanced": apisAdv,
     "js-core": jsBasics, "js-arrays": jsArrays, "js-async": jsAsync, "typescript-basics": tsBasics,
     "claude-basics": claudeBasics, "cursor-basics": cursorBasics,
+    "vector-db": vectorDb, "rag-fundamentals": ragFundamentals, "rag-advanced": ragAdvanced,
   };
 
   const totalXp = Object.values(progressMap).reduce((s, p) => s + p.xp, 0);

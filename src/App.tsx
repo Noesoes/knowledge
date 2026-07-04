@@ -30,6 +30,9 @@ import { jsBasicsUnits } from "./content/jsBasicsPath";
 import { jsArraysUnits } from "./content/jsArraysPath";
 import { jsAsyncUnits } from "./content/jsAsyncPath";
 import { typescriptBasicsUnits } from "./content/typescriptBasicsPath";
+import { vectorDbUnits } from "./content/vectorDbPath";
+import { ragFundamentalsUnits } from "./content/ragFundamentalsPath";
+import { ragAdvancedUnits } from "./content/ragAdvancedPath";
 import ProgressPage from "./pages/ProgressPage";
 
 export default function App() {
@@ -374,6 +377,45 @@ export default function App() {
               icon="🖱️"
               units={cursorBasicsUnits}
               storagePrefix="cursorbasicspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/vector-db-path"
+          element={
+            <LessonPathPage
+              title="Vector Databases"
+              icon="🧲"
+              units={vectorDbUnits}
+              storagePrefix="vectordbpath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/rag-fundamentals-path"
+          element={
+            <LessonPathPage
+              title="RAG Fundamentals"
+              icon="🔍"
+              units={ragFundamentalsUnits}
+              storagePrefix="ragfundamentalspath"
+              backHref="/"
+              backLabel="Back to all paths"
+            />
+          }
+        />
+        <Route
+          path="/rag-advanced-path"
+          element={
+            <LessonPathPage
+              title="Advanced RAG & Production Patterns"
+              icon="⚙️"
+              units={ragAdvancedUnits}
+              storagePrefix="ragadvancedpath"
               backHref="/"
               backLabel="Back to all paths"
             />

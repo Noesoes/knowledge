@@ -28,6 +28,9 @@ import { jsBasicsUnits } from "../content/jsBasicsPath";
 import { jsArraysUnits } from "../content/jsArraysPath";
 import { jsAsyncUnits } from "../content/jsAsyncPath";
 import { typescriptBasicsUnits } from "../content/typescriptBasicsPath";
+import { vectorDbUnits } from "../content/vectorDbPath";
+import { ragFundamentalsUnits } from "../content/ragFundamentalsPath";
+import { ragAdvancedUnits } from "../content/ragAdvancedPath";
 
 interface CourseMeta {
   id: string;
@@ -434,6 +437,52 @@ const subjects: Subject[] = [
       },
     ],
   },
+  {
+    id: "vector-rag",
+    title: "Vector Databases & RAG",
+    blurb: "How AI apps find relevant information and answer questions from your own data.",
+    courses: [
+      {
+        id: "vector-db",
+        href: "/vector-db-path",
+        icon: "🧲",
+        isNew: true,
+        title: "Vector Databases",
+        tagline: "Embeddings, ANN indexes, metadata filtering, and choosing the right store.",
+        level: "Beginner",
+        minutes: 25,
+        rating: 4.8,
+        reviews: 420,
+        banner: "#5b9dff",
+      },
+      {
+        id: "rag-fundamentals",
+        href: "/rag-fundamentals-path",
+        icon: "🔍",
+        isNew: true,
+        title: "RAG Fundamentals",
+        tagline: "Chunk, embed, retrieve, generate — build your first retrieval pipeline.",
+        level: "Intermediate",
+        minutes: 30,
+        rating: 4.9,
+        reviews: 614,
+        banner: "#3ecf8e",
+      },
+      {
+        id: "rag-advanced",
+        href: "/rag-advanced-path",
+        icon: "⚙️",
+        isNew: true,
+        title: "Advanced RAG & Production Patterns",
+        tagline: "HyDE, hybrid search, rerankers, evaluation, and agentic retrieval.",
+        level: "Advanced",
+        minutes: 35,
+        rating: 4.8,
+        reviews: 287,
+        banner: "#c792ea",
+      },
+    ],
+  },
 ];
 
 const levelColors: Record<string, string> = {
@@ -603,6 +652,9 @@ export default function Home() {
   const jsArraysProgress = useLessonPathProgress("jsarrayspath", jsArraysUnits);
   const jsAsyncProgress = useLessonPathProgress("jsasyncpath", jsAsyncUnits);
   const tsBasicsProgress = useLessonPathProgress("typescriptbasicspath", typescriptBasicsUnits);
+  const vectorDbProgress = useLessonPathProgress("vectordbpath", vectorDbUnits);
+  const ragFundamentalsProgress = useLessonPathProgress("ragfundamentalspath", ragFundamentalsUnits);
+  const ragAdvancedProgress = useLessonPathProgress("ragadvancedpath", ragAdvancedUnits);
 
   const progressByCourse: Record<string, { pct: number; xp: number; streak: number; done: number; total: number }> = {
     "git-core": { pct: gitCoreProgress.pct, xp: gitCoreProgress.xp, streak: gitCoreProgress.streak, done: gitCoreProgress.completedCount, total: gitCoreProgress.totalLessons },
@@ -632,6 +684,9 @@ export default function Home() {
     "js-arrays": { pct: jsArraysProgress.pct, xp: jsArraysProgress.xp, streak: jsArraysProgress.streak, done: jsArraysProgress.completedCount, total: jsArraysProgress.totalLessons },
     "js-async": { pct: jsAsyncProgress.pct, xp: jsAsyncProgress.xp, streak: jsAsyncProgress.streak, done: jsAsyncProgress.completedCount, total: jsAsyncProgress.totalLessons },
     "typescript-basics": { pct: tsBasicsProgress.pct, xp: tsBasicsProgress.xp, streak: tsBasicsProgress.streak, done: tsBasicsProgress.completedCount, total: tsBasicsProgress.totalLessons },
+    "vector-db": { pct: vectorDbProgress.pct, xp: vectorDbProgress.xp, streak: vectorDbProgress.streak, done: vectorDbProgress.completedCount, total: vectorDbProgress.totalLessons },
+    "rag-fundamentals": { pct: ragFundamentalsProgress.pct, xp: ragFundamentalsProgress.xp, streak: ragFundamentalsProgress.streak, done: ragFundamentalsProgress.completedCount, total: ragFundamentalsProgress.totalLessons },
+    "rag-advanced": { pct: ragAdvancedProgress.pct, xp: ragAdvancedProgress.xp, streak: ragAdvancedProgress.streak, done: ragAdvancedProgress.completedCount, total: ragAdvancedProgress.totalLessons },
   };
 
   const allCourses = subjects.flatMap((s) => s.courses);
